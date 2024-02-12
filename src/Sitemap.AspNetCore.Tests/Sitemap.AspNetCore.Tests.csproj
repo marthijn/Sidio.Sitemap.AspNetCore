@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\Sitemap.AspNetCore\Sitemap.AspNetCore.csproj" />
+      <ProjectReference Include="..\Sitemap.AspNetCore\Sitemap.AspNetCore.csproj" />
     </ItemGroup>
 
 </Project>
