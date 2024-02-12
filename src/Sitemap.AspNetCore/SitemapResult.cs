@@ -49,17 +49,6 @@ public sealed class SitemapResult : ActionResult
         await base.ExecuteResultAsync(context).ConfigureAwait(false);
     }
 
-    /// <inheritdoc />
-    public override void ExecuteResult(ActionContext context)
-    {
-        var xml = Serialize(context.HttpContext);
-
-        var response = context.HttpContext.Response;
-        response.ContentType = ContentType;
-        response.WriteAsync(xml, Encoding.UTF8).GetAwaiter().GetResult();
-        base.ExecuteResult(context);
-    }
-
     private string Serialize(HttpContext httpContext)
     {
         if (_sitemap != null)
