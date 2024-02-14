@@ -41,7 +41,7 @@ public sealed class SitemapResult : ActionResult
     /// <inheritdoc />
     public override async Task ExecuteResultAsync(ActionContext context)
     {
-        var xml = await SerializeAsync(context.HttpContext);
+        var xml = await SerializeAsync(context.HttpContext).ConfigureAwait(false);
 
         var response = context.HttpContext.Response;
         response.ContentType = ContentType;
