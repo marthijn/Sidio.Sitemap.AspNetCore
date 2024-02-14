@@ -41,7 +41,7 @@ public sealed class SitemapResult : ActionResult
     /// <inheritdoc />
     public override async Task ExecuteResultAsync(ActionContext context)
     {
-        var xml = Serialize(context.HttpContext);
+        var xml = await SerializeAsync(context.HttpContext);
 
         var response = context.HttpContext.Response;
         response.ContentType = ContentType;
@@ -49,18 +49,18 @@ public sealed class SitemapResult : ActionResult
         await base.ExecuteResultAsync(context).ConfigureAwait(false);
     }
 
-    private string Serialize(HttpContext httpContext)
+    private Task<string> SerializeAsync(HttpContext httpContext)
     {
         if (_sitemap != null)
         {
             var service = httpContext.RequestServices.GetRequiredService<ISitemapService>();
-            return service.Serialize(_sitemap);
+            return service.SerializeAsync(_sitemap);
         }
 
         if (_sitemapIndex != null)
         {
             var service = httpContext.RequestServices.GetRequiredService<ISitemapIndexService>();
-            return service.Serialize(_sitemapIndex);
+            return service.SerializeAsync(_sitemapIndex);
         }
 
         throw new InvalidOperationException("No sitemap or sitemap index provided.");
