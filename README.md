@@ -11,15 +11,17 @@ Add [the package](https://www.nuget.org/packages/Sitemap.AspNetCore/) to your pr
 # Usage
 ```csharp
 // di setup
-services.AddBaseUrlProvider<HttpContextBaseUrlProvider>();
-services.AddDefaultSitemapServices();
+services.AddDefaultSitemapServices<HttpContextBaseUrlProvider>();
 
 // controller
 [HttpGet]
 public IActionResult Sitemap()
 {
-    var nodes = new List<SitemapNode> { new ("page.html") };
+    var nodes = new List<SitemapNode> { new ("page.html"), new (Url.Action("Index")) };
     var sitemap = new Sitemap(nodes);
     return SitemapResult(sitemap);
 }
 ```
+
+# See also
+* [Sitemap.Core package](https://github.com/marthijn/Sitemap.Core)

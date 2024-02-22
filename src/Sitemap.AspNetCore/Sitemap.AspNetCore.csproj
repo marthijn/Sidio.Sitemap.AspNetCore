@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Sitemap.Core" Version="1.1.0" />
+    <PackageReference Include="Sitemap.Core" Version="1.2.0" />
   </ItemGroup>
 
 </Project>
