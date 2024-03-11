@@ -19,7 +19,7 @@ public IActionResult Sitemap()
 {
     var nodes = new List<SitemapNode> { new ("page.html"), new (Url.Action("Index")) };
     var sitemap = new Sitemap(nodes);
-    return SitemapResult(sitemap);
+    return new SitemapResult(sitemap);
 }
 ```
 
