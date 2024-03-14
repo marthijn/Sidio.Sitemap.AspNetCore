@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
-using Sitemap.Core.Services;
+using Sidio.Sitemap.Core;
+using Sidio.Sitemap.Core.Services;
 
-namespace Sitemap.AspNetCore.Tests;
+namespace Sidio.Sitemap.AspNetCore.Tests;
 
 public sealed class SitemapResultTests
 {
@@ -40,7 +41,7 @@ public sealed class SitemapResultTests
     public async Task ExecuteResultAsync_SitemapIndex_ReturnsXml()
     {
         // arrange
-        var sitemap = _fixture.Create<Core.SitemapIndex>();
+        var sitemap = _fixture.Create<SitemapIndex>();
         var sitemapResult = new SitemapResult(sitemap);
 
         var httpContext = new DefaultHttpContext { RequestServices = CreateServiceProvider(), Response = { Body = new MemoryStream() } };

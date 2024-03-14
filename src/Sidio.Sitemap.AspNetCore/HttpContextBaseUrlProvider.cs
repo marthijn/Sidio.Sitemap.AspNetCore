@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Sitemap.Core;
+using Sidio.Sitemap.Core;
 
-namespace Sitemap.AspNetCore;
+namespace Sidio.Sitemap.AspNetCore;
 
 /// <summary>
 /// The HTTP Context base URL provider.

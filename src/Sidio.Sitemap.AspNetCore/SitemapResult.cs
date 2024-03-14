@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Sitemap.Core;
-using Sitemap.Core.Services;
+using Sidio.Sitemap.Core;
+using Sidio.Sitemap.Core.Services;
 
-namespace Sitemap.AspNetCore;
+namespace Sidio.Sitemap.AspNetCore;
 
 /// <summary>
 /// The sitemap result.

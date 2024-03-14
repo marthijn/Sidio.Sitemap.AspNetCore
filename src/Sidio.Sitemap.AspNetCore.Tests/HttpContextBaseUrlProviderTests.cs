@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Sitemap.AspNetCore.Tests;
+namespace Sidio.Sitemap.AspNetCore.Tests;
 
 public sealed class HttpContextBaseUrlProviderTests
 {
