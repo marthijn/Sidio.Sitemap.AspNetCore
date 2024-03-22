@@ -2,6 +2,8 @@ Sidio.Sitemap.AspNetCore
 =============
 Sidio.Sitemap.AspNetCore is a lightweight .NET library for generating sitemaps and a sitemap index in ASP .NET Core applications.
 
+In addition to sitemap and sitemap index generation, news, images and video extensions are also supported.
+
 [![build](https://github.com/marthijn/Sidio.Sitemap.AspNetCore/actions/workflows/build.yml/badge.svg)](https://github.com/marthijn/Sidio.Sitemap.AspNetCore/actions/workflows/build.yml)
 [![NuGet Version](https://img.shields.io/nuget/v/Sidio.Sitemap.AspNetCore)](https://www.nuget.org/packages/Sidio.Sitemap.AspNetCore/)
 
@@ -9,6 +11,7 @@ Sidio.Sitemap.AspNetCore is a lightweight .NET library for generating sitemaps a
 Add [the package](https://www.nuget.org/packages/Sidio.Sitemap.AspNetCore/) to your project.
 
 # Usage
+## Sitemap
 ```csharp
 // di setup
 services.AddHttpContextAccessor();
@@ -21,6 +24,23 @@ public IActionResult Sitemap()
     var nodes = new List<SitemapNode> { new ("page.html"), new (Url.Action("Index")) };
     var sitemap = new Sitemap(nodes);
     return new SitemapResult(sitemap);
+}
+```
+
+## Sitemap and sitemap index
+```csharp
+[Route("sitemap.xml")]
+public IActionResult SitemapIndex()
+{
+    var sitemapIndex = new SitemapIndex();
+    sitemapIndex.Add(new SitemapIndexNode(Url.Action("Sitemap1")));
+    return new SitemapResult(sitemapIndex);
+}
+
+[Route("sitemap-1.xml")]
+public IActionResult Sitemap1()
+{
+    // ...
 }
 ```
 
