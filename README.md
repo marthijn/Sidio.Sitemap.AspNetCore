@@ -11,6 +11,7 @@ Add [the package](https://www.nuget.org/packages/Sidio.Sitemap.AspNetCore/) to y
 # Usage
 ```csharp
 // di setup
+services.AddHttpContextAccessor();
 services.AddDefaultSitemapServices<HttpContextBaseUrlProvider>();
 
 // controller
@@ -22,6 +23,11 @@ public IActionResult Sitemap()
     return new SitemapResult(sitemap);
 }
 ```
+
+# FAQ
+
+* Exception: `Unable to resolve service for type 'Microsoft.AspNetCore.Http.IHttpContextAccessor' while attempting to activate 'Sidio.Sitemap.AspNetCore.HttpContextBaseUrlProvider'.` 
+  * Solution: call `services.AddHttpContextAccessor();` to register the `IHttpContextAccessor`.
 
 # See also
 * [Sidio.Sitemap.Core package](https://github.com/marthijn/Sidio.Sitemap.Core)
