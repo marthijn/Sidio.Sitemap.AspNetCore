@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Sidio.Sitemap.Core" Version="2.2.1" />
+    <PackageReference Include="Sidio.Sitemap.Core" Version="2.2.2" />
   </ItemGroup>
 
 </Project>
