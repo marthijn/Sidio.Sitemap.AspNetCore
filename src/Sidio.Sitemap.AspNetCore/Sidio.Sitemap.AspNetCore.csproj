@@ -13,6 +13,9 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Description>Sidio.Sitemap.AspNetCore is a lightweight .NET library for generating sitemaps and a sitemap index in ASP .NET Core applications.</Description>
     <PackageTags>aspnetcore sitemap sitemap-generator sitemap-xml sitemap-files generating-sitemaps</PackageTags>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>

@@ -36,7 +36,7 @@ jobs:
       - name: Test
         run: dotnet test --configuration Release /p:Version=${RELEASE_VERSION} --no-build
       - name: Pack
-        run: dotnet pack --configuration Release /p:Version=${RELEASE_VERSION} --output ${{ env.NuGetDirectory }}
+        run: dotnet pack --configuration Release /p:Version=${RELEASE_VERSION} --output ${{ env.NuGetDirectory }} -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
       - name: Push
         run: dotnet nuget push ${{ env.NuGetDirectory }}/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${NUGET_API_KEY}
         env:
