@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{30
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication", "src\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.csproj", "{CB190E46-DDD0-44A0-A384-9C99239A30FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidio.Sitemap.AspNetCore.IntegrationTests", "src\Sidio.Sitemap.AspNetCore.IntegrationTests\Sidio.Sitemap.AspNetCore.IntegrationTests.csproj", "{AF1B6B53-8880-478B-8F38-C45439C9E431}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests", "src\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests.csproj", "{AF1B6B53-8880-478B-8F38-C45439C9E431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

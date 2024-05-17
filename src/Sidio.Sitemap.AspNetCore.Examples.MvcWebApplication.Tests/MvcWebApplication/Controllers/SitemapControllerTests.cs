@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Sidio.Sitemap.AspNetCore.IntegrationTests.MvcWebApplication.Controllers;
+namespace Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests.MvcWebApplication.Controllers;
 
 public sealed class SitemapControllerTests : IClassFixture<WebApplicationFactory<Program>>
 {
