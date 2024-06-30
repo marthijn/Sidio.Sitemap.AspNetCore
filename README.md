@@ -58,7 +58,7 @@ builder.Services.
     .AddSitemapMiddleware(
         options =>
         {
-            options.EndpointInclusionMethod = EndpointInclusionMethod.OptIn;
+            options.EndpointInclusionMode = EndpointInclusionMode.OptIn;
             options.CacheEnabled = false; // (optional) default is false, set to true to enable caching
             options.CacheAbsoluteExpirationInMinutes = 60; // (optional) default is 60 minutes
         })
