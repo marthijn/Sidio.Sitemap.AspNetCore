@@ -22,7 +22,7 @@ public sealed class ControllerSitemapServiceTests
     {
         // arrange
         var service = CreateService(
-            new SitemapMiddlewareOptions{EndpointInclusionMethod = EndpointInclusionMethod.OptIn},
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptIn},
             out var actionDescriptorCollectionProvider);
 
         actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(
@@ -56,7 +56,7 @@ public sealed class ControllerSitemapServiceTests
     {
         // arrange
         var service = CreateService(
-            new SitemapMiddlewareOptions{EndpointInclusionMethod = EndpointInclusionMethod.OptIn},
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptIn},
             out var actionDescriptorCollectionProvider);
 
         actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(
@@ -89,7 +89,7 @@ public sealed class ControllerSitemapServiceTests
     {
         // arrange
         var service = CreateService(
-            new SitemapMiddlewareOptions{EndpointInclusionMethod = EndpointInclusionMethod.OptIn},
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptIn},
             out var actionDescriptorCollectionProvider);
 
         actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(
@@ -123,7 +123,7 @@ public sealed class ControllerSitemapServiceTests
     {
         // arrange
         var service = CreateService(
-            new SitemapMiddlewareOptions{EndpointInclusionMethod = EndpointInclusionMethod.OptOut},
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptOut},
             out var actionDescriptorCollectionProvider);
 
         actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(
@@ -156,7 +156,7 @@ public sealed class ControllerSitemapServiceTests
     {
         // arrange
         var service = CreateService(
-            new SitemapMiddlewareOptions{EndpointInclusionMethod = EndpointInclusionMethod.OptOut},
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptOut},
             out var actionDescriptorCollectionProvider);
 
         actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(
@@ -190,7 +190,7 @@ public sealed class ControllerSitemapServiceTests
     {
         // arrange
         var service = CreateService(
-            new SitemapMiddlewareOptions{EndpointInclusionMethod = EndpointInclusionMethod.OptOut},
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptOut},
             out var actionDescriptorCollectionProvider);
 
         actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(

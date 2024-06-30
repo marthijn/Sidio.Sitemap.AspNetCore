@@ -1,9 +1,9 @@
 ﻿namespace Sidio.Sitemap.AspNetCore.Middleware;
 
 /// <summary>
-/// The endpoint inclusion method.
+/// The endpoint inclusion mode.
 /// </summary>
-public enum EndpointInclusionMethod
+public enum EndpointInclusionMode
 {
     /// <summary>
     /// Opt in.

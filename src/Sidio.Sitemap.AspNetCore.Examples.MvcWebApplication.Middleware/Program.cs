@@ -11,7 +11,7 @@ builder.Services
     .AddSitemapMiddleware(
         options =>
         {
-            options.EndpointInclusionMethod = EndpointInclusionMethod.OptIn;
+            options.EndpointInclusionMode = EndpointInclusionMode.OptIn;
         })
     .AddControllersWithViews();
 

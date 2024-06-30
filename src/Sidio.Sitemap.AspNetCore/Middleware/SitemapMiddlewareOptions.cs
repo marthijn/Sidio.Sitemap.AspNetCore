@@ -8,7 +8,7 @@ public sealed class SitemapMiddlewareOptions
     /// <summary>
     /// Gets or sets the endpoint inclusion method.
     /// </summary>
-    public EndpointInclusionMethod EndpointInclusionMethod { get; set; } = EndpointInclusionMethod.OptIn;
+    public EndpointInclusionMode EndpointInclusionMode { get; set; } = EndpointInclusionMode.OptIn;
 
     /// <summary>
     /// Gets or sets a value indicating whether the cache is enabled.

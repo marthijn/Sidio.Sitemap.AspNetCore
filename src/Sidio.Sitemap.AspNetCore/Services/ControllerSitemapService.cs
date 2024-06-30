@@ -48,7 +48,7 @@ public sealed class ControllerSitemapService : IControllerSitemapService
     /// <inheritdoc />
     public IEnumerable<SitemapNode> CreateSitemap(Type controllerType)
     {
-        var inclusionMethod = _options.Value.EndpointInclusionMethod;
+        var inclusionMethod = _options.Value.EndpointInclusionMode;
         var actions = _actionDescriptorCollectionProvider.ActionDescriptors.Items
             .OfType<ControllerActionDescriptor>()
             .Where(x => x.ControllerTypeInfo.BaseType == typeof(Controller))
@@ -57,7 +57,7 @@ public sealed class ControllerSitemapService : IControllerSitemapService
         _logger.LogTrace("Found {Count} actions in controller `{ControllerType}`", actions.Count, controllerType.Name);
 
         var nodes = new HashSet<SitemapNode>();
-        if (inclusionMethod == EndpointInclusionMethod.OptIn)
+        if (inclusionMethod == EndpointInclusionMode.OptIn)
         {
             var methods = GetControllerMethodsOptIn(
                 controllerType,
