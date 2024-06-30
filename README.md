@@ -67,7 +67,7 @@ app.UseSitemap();
 ```
 
 ### Attributes
-Decorated your controllers and/or actions with the `[SitemapInclude]` or `[SitemapExclude]` attribute.
+Decorate your controllers and/or actions with the `[SitemapInclude]` or `[SitemapExclude]` attribute.
 
 When using `OptIn` mode, only controllers and/or actions decorated with `[SitemapInclude]` will be included in the sitemap.
 
