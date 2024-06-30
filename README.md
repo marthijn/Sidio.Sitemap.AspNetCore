@@ -11,7 +11,8 @@ In addition to sitemap and sitemap index generation, news, images and video exte
 Add [the package](https://www.nuget.org/packages/Sidio.Sitemap.AspNetCore/) to your project.
 
 # Usage
-## Sitemap
+## Building sitemaps manually
+### Sitemap
 ```csharp
 // di setup
 services.AddHttpContextAccessor();
@@ -27,7 +28,7 @@ public IActionResult Sitemap()
 }
 ```
 
-## Sitemap and sitemap index
+### Sitemap and sitemap index
 ```csharp
 [Route("sitemap.xml")]
 public IActionResult SitemapIndex()
@@ -44,6 +45,37 @@ public IActionResult Sitemap1()
 }
 ```
 
+## Using middleware
+By using the `SitemapMiddlware` the sitemap is generated automatically using reflection. 
+Currently only ASP .NET Core controllers and actions are supported. Razor pages will be supported in the future.
+
+### Setup
+In `Program.cs`, add the following:
+```csharp
+builder.Services.
+    .AddHttpContextAccessor()
+    .AddDefaultSitemapServices<HttpContextBaseUrlProvider>()
+    .AddSitemapMiddleware(
+        options =>
+        {
+            options.EndpointInclusionMethod = EndpointInclusionMethod.OptIn;
+            options.CacheEnabled = false; // (optional) default is false, set to true to enable caching
+            options.CacheAbsoluteExpirationInMinutes = 60; // (optional) default is 60 minutes
+        })
+// ...
+app.UseSitemap();
+```
+
+### Attributes
+Decorated your controllers and/or actions with the `[SitemapInclude]` or `[SitemapExclude]` attribute.
+
+When using `OptIn` mode, only controllers and/or actions decorated with `[SitemapInclude]` will be included in the sitemap.
+
+When using `OptOut` mode, controllers and/or actions decorated with `[SitemapExclude]` will be excluded from the sitemap.
+
+### Caching
+Configure the [`IDistributedCache`](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed) to use caching of the Sitemap.
+
 # FAQ
 
 * Exception: `Unable to resolve service for type 'Microsoft.AspNetCore.Http.IHttpContextAccessor' while attempting to activate 'Sidio.Sitemap.AspNetCore.HttpContextBaseUrlProvider'.` 
@@ -51,6 +83,7 @@ public IActionResult Sitemap1()
 
 # See also
 * [Sidio.Sitemap.Core package](https://github.com/marthijn/Sidio.Sitemap.Core)
+* [Sidio.Sitemap.Blazor package](https://github.com/marthijn/Sidio.Sitemap.Blazor) for Blazor support.
 
 # Used by
 - [Drammer.com](https://drammer.com)
