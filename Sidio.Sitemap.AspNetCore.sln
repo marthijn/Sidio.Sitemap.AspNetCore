@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidio.Sitemap.AspNetCore", "src\Sidio.Sitemap.AspNetCore\Sidio.Sitemap.AspNetCore.csproj", "{DC78B0F0-C432-40E0-B457-28DECCF93989}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sidio.Sitemap.AspNetCore", "src\Sidio.Sitemap.AspNetCore\Sidio.Sitemap.AspNetCore.csproj", "{DC78B0F0-C432-40E0-B457-28DECCF93989}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{A84962F5-CBDA-4DFA-8330-688B1E74BF45}"
 	ProjectSection(SolutionItems) = preProject
@@ -22,13 +22,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidio.Sitemap.AspNetCore.Tests", "src\Sidio.Sitemap.AspNetCore.Tests\Sidio.Sitemap.AspNetCore.Tests.csproj", "{FF6107F5-2129-4482-976D-4A59B7CF9012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sidio.Sitemap.AspNetCore.Tests", "src\Sidio.Sitemap.AspNetCore.Tests\Sidio.Sitemap.AspNetCore.Tests.csproj", "{FF6107F5-2129-4482-976D-4A59B7CF9012}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{304BDC1E-73E2-4CD5-9CAE-14642D299E4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication", "src\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.csproj", "{CB190E46-DDD0-44A0-A384-9C99239A30FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication", "src\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.csproj", "{CB190E46-DDD0-44A0-A384-9C99239A30FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests", "src\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests.csproj", "{AF1B6B53-8880-478B-8F38-C45439C9E431}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests", "src\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests.csproj", "{AF1B6B53-8880-478B-8F38-C45439C9E431}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware", "src\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.csproj", "{02D87779-3782-4484-885B-0A8574BF17DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,17 +54,22 @@ Global
 		{AF1B6B53-8880-478B-8F38-C45439C9E431}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF1B6B53-8880-478B-8F38-C45439C9E431}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF1B6B53-8880-478B-8F38-C45439C9E431}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02D87779-3782-4484-885B-0A8574BF17DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02D87779-3782-4484-885B-0A8574BF17DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02D87779-3782-4484-885B-0A8574BF17DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02D87779-3782-4484-885B-0A8574BF17DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {BAAFA8AB-8CE7-4B73-8583-EB5CD2DD789E}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DC78B0F0-C432-40E0-B457-28DECCF93989} = {8BB6D612-E472-451D-8EE3-390A292B238F}
 		{FF6107F5-2129-4482-976D-4A59B7CF9012} = {150077D2-C1D4-422C-9343-1A0FAA5C663E}
 		{CB190E46-DDD0-44A0-A384-9C99239A30FF} = {304BDC1E-73E2-4CD5-9CAE-14642D299E4D}
 		{AF1B6B53-8880-478B-8F38-C45439C9E431} = {150077D2-C1D4-422C-9343-1A0FAA5C663E}
+		{02D87779-3782-4484-885B-0A8574BF17DB} = {304BDC1E-73E2-4CD5-9CAE-14642D299E4D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BAAFA8AB-8CE7-4B73-8583-EB5CD2DD789E}
 	EndGlobalSection
 EndGlobal
