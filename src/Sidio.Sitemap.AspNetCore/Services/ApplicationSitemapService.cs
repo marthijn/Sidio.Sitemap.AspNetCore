@@ -62,7 +62,7 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
 
         if (_logger.IsEnabled(LogLevel.Trace))
         {
-            _logger.LogTrace("Cache is enabled, trying to get sitemap from cache");
+            _logger.LogTrace("Cache is enabled, trying to get sitemap from cache by key `{CacheKey}`", CacheKey);
         }
 
         var xml = await _cache.GetStringAsync(CacheKey, cancellationToken).ConfigureAwait(false);
