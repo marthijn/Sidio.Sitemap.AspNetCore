@@ -54,7 +54,13 @@ public sealed class ControllerSitemapService : IControllerSitemapService
             .Where(x => x.ControllerTypeInfo.BaseType == typeof(Controller))
             .ToList();
 
-        _logger.LogTrace("Found {Count} actions in controller `{ControllerType}`", actions.Count, controllerType.Name);
+        if (_logger.IsEnabled(LogLevel.Trace))
+        {
+            _logger.LogTrace(
+                "Found {Count} actions in controller `{ControllerType}`",
+                actions.Count,
+                controllerType.Name);
+        }
 
         var nodes = new HashSet<SitemapNode>();
         if (inclusionMethod == EndpointInclusionMode.OptIn)
@@ -80,7 +86,15 @@ public sealed class ControllerSitemapService : IControllerSitemapService
     private SitemapNode CreateNode(ControllerActionDescriptor action)
     {
         var url = _linkGenerator.GetUriByAction(HttpContext, action.ActionName, action.ControllerName);
-        _logger.LogTrace("Created sitemap URL for action `{Action}` in controller `{Controller}`", action.ActionName, action.ControllerName);
+
+        if (_logger.IsEnabled(LogLevel.Trace))
+        {
+            _logger.LogTrace(
+                "Created sitemap URL for action `{Action}` in controller `{Controller}`",
+                action.ActionName,
+                action.ControllerName);
+        }
+
         return new SitemapNode(url);
     }
 
@@ -99,10 +113,13 @@ public sealed class ControllerSitemapService : IControllerSitemapService
             }
             else
             {
-                _logger.LogTrace(
-                    "Action `{Action}` in controller `{Controller}` is not decorated with SitemapIncludeAttribute, skipping",
-                    action.ActionName,
-                    action.ControllerName);
+                if (_logger.IsEnabled(LogLevel.Trace))
+                {
+                    _logger.LogTrace(
+                        "Action `{Action}` in controller `{Controller}` is not decorated with SitemapIncludeAttribute, skipping",
+                        action.ActionName,
+                        action.ControllerName);
+                }
             }
         }
 
@@ -115,7 +132,13 @@ public sealed class ControllerSitemapService : IControllerSitemapService
         var hasOptOutAttribute = controllerType.GetCustomAttributes<SitemapExcludeAttribute>().Any();
         if (hasOptOutAttribute)
         {
-            _logger.LogTrace("Controller `{ControllerType}` is decorated with SitemapExcludeAttribute, skipping", controllerType.Name);
+            if (_logger.IsEnabled(LogLevel.Trace))
+            {
+                _logger.LogTrace(
+                    "Controller `{ControllerType}` is decorated with SitemapExcludeAttribute, skipping",
+                    controllerType.Name);
+            }
+
             return nodes;
         }
 
@@ -129,10 +152,13 @@ public sealed class ControllerSitemapService : IControllerSitemapService
             }
             else
             {
-                _logger.LogTrace(
-                    "Action `{Action}` in controller `{Controller}` is decorated with SitemapExcludeAttribute, skipping",
-                    action.ActionName,
-                    action.ControllerName);
+                if (_logger.IsEnabled(LogLevel.Trace))
+                {
+                    _logger.LogTrace(
+                        "Action `{Action}` in controller `{Controller}` is decorated with SitemapExcludeAttribute, skipping",
+                        action.ActionName,
+                        action.ControllerName);
+                }
             }
         }
 
