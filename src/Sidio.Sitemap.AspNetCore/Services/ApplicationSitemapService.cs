@@ -8,6 +8,9 @@ using Sidio.Sitemap.Core.Services;
 
 namespace Sidio.Sitemap.AspNetCore.Services;
 
+/// <summary>
+/// The application sitemap service.
+/// </summary>
 public sealed class ApplicationSitemapService : IApplicationSitemapService
 {
     private const string CacheKey = $"{nameof(ApplicationSitemapService)}:Sitemap";
@@ -19,6 +22,15 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
     private readonly IControllerService _controllerService;
     private readonly ILogger<ApplicationSitemapService> _logger;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ApplicationSitemapService"/> class.
+    /// </summary>
+    /// <param name="sitemapService">The sitemap service.</param>
+    /// <param name="controllerSitemapService">The controller sitemap servicve.</param>
+    /// <param name="cache">The cache.</param>
+    /// <param name="options">Options.</param>
+    /// <param name="controllerService">The controller service.</param>
+    /// <param name="logger">The logger.</param>
     public ApplicationSitemapService(
         ISitemapService sitemapService,
         IControllerSitemapService controllerSitemapService,

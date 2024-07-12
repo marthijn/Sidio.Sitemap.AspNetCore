@@ -11,6 +11,8 @@ In addition to sitemap and sitemap index generation, news, images and video exte
 Add [the package](https://www.nuget.org/packages/Sidio.Sitemap.AspNetCore/) to your project.
 
 # Usage
+There are two ways to generate sitemaps: manually or by using middleware. When using middleware, the sitemap is generated automatically.
+
 ## Building sitemaps manually
 ### Sitemap
 ```csharp
@@ -35,6 +37,7 @@ public IActionResult SitemapIndex()
 {
     var sitemapIndex = new SitemapIndex();
     sitemapIndex.Add(new SitemapIndexNode(Url.Action("Sitemap1")));
+    sitemapIndex.Add(new SitemapIndexNode(Url.Action("Sitemap2")));
     return new SitemapResult(sitemapIndex);
 }
 
@@ -43,7 +46,17 @@ public IActionResult Sitemap1()
 {
     // ...
 }
+
+[Route("sitemap-2.xml")]
+public IActionResult Sitemap2()
+{
+    // ...
+}
 ```
+
+### Advanced setup and extensions
+See the [Sidio.Sitemap.Core package documentation](https://github.com/marthijn/Sidio.Sitemap.Core) to read more about additional properties
+and sitemap extensions (i.e. news, images and videos).
 
 ## Using middleware
 By using the `SitemapMiddlware` the sitemap is generated automatically using reflection. 
@@ -52,6 +65,7 @@ Currently only ASP .NET Core controllers and actions are supported. Razor pages 
 ### Setup
 In `Program.cs`, add the following:
 ```csharp
+// di setup
 builder.Services.
     .AddHttpContextAccessor()
     .AddDefaultSitemapServices<HttpContextBaseUrlProvider>()
@@ -62,7 +76,8 @@ builder.Services.
             options.CacheEnabled = false; // (optional) default is false, set to true to enable caching
             options.CacheAbsoluteExpirationInMinutes = 60; // (optional) default is 60 minutes
         })
-// ...
+
+// use the middleware 
 app.UseSitemap();
 ```
 
@@ -70,8 +85,22 @@ app.UseSitemap();
 Decorate your controllers and/or actions with the `[SitemapInclude]` or `[SitemapExclude]` attribute.
 
 When using `OptIn` mode, only controllers and/or actions decorated with `[SitemapInclude]` will be included in the sitemap.
+```csharp
+[SitemapInclude] // this action will be included in the sitemap
+public IActionResult Index()
+{
+    return View();
+}
+```
 
 When using `OptOut` mode, controllers and/or actions decorated with `[SitemapExclude]` will be excluded from the sitemap.
+```csharp
+[SitemapExclude] // this action will not be included in the sitemap
+public IActionResult Index()
+{
+    return View();
+}
+```
 
 ### Caching
 Configure the [`IDistributedCache`](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed) to use caching of the Sitemap.

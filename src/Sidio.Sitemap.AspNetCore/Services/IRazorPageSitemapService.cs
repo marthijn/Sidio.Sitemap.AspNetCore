@@ -2,6 +2,9 @@
 
 namespace Sidio.Sitemap.AspNetCore.Services;
 
+/// <summary>
+/// The razor page sitemap service.
+/// </summary>
 public interface IRazorPageSitemapService
 {
     /// <summary>

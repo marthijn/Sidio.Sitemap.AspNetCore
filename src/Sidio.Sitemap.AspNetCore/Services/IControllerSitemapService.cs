@@ -3,7 +3,7 @@
 namespace Sidio.Sitemap.AspNetCore.Services;
 
 /// <summary>
-/// The controller sitemap service interface.
+/// The controller sitemap service interface. Responsible for creating sitemap nodes for controllers.
 /// </summary>
 public interface IControllerSitemapService
 {

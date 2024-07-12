@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Authors>Marthijn van den Heuvel,Sidio</Authors>
+    <Copyright>Copyright (c) 2024 Marthijn van den Heuvel</Copyright>
     <PackageId>Sidio.Sitemap.AspNetCore</PackageId>
     <RepositoryUrl>https://github.com/marthijn/Sidio.Sitemap.AspNetCore/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
