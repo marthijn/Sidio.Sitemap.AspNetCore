@@ -96,7 +96,7 @@ public sealed class ApplicationSitemapServiceTests
         distributedCacheMock = new Mock<IDistributedCache>();
 
         var controllerServiceMock = new Mock<IControllerService>();
-        controllerServiceMock.Setup(x => x.GetControllersFromEntryAssembly())
+        controllerServiceMock.Setup(x => x.GetControllersFromAssembly(It.IsAny<Type>()))
             .Returns(new List<Type> {typeof(DummyController)});
 
         return new ApplicationSitemapService(

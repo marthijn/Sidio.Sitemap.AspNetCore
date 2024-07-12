@@ -6,8 +6,9 @@
 public interface IControllerService
 {
     /// <summary>
-    /// Returns a list of controllers from the entry assembly.
+    /// Returns a list of controllers from the assembly.
     /// </summary>
+    /// <param name="assemblyMarker">The assembly marker (optional).</param>
     /// <returns>A <see cref="IReadOnlyList{T}"/>.</returns>
-    IReadOnlyList<Type> GetControllersFromEntryAssembly();
+    IReadOnlyList<Type> GetControllersFromAssembly(Type? assemblyMarker = null);
 }

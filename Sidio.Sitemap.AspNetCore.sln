@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sidio.Sitemap.AspNetCore.Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware", "src\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.csproj", "{02D87779-3782-4484-885B-0A8574BF17DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.Tests", "src\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.Tests\Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.Tests.csproj", "{BA0B7BFB-E1B7-467F-81D2-05EA556BDC03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{02D87779-3782-4484-885B-0A8574BF17DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02D87779-3782-4484-885B-0A8574BF17DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02D87779-3782-4484-885B-0A8574BF17DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA0B7BFB-E1B7-467F-81D2-05EA556BDC03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA0B7BFB-E1B7-467F-81D2-05EA556BDC03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA0B7BFB-E1B7-467F-81D2-05EA556BDC03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA0B7BFB-E1B7-467F-81D2-05EA556BDC03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{CB190E46-DDD0-44A0-A384-9C99239A30FF} = {304BDC1E-73E2-4CD5-9CAE-14642D299E4D}
 		{AF1B6B53-8880-478B-8F38-C45439C9E431} = {150077D2-C1D4-422C-9343-1A0FAA5C663E}
 		{02D87779-3782-4484-885B-0A8574BF17DB} = {304BDC1E-73E2-4CD5-9CAE-14642D299E4D}
+		{BA0B7BFB-E1B7-467F-81D2-05EA556BDC03} = {150077D2-C1D4-422C-9343-1A0FAA5C663E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BAAFA8AB-8CE7-4B73-8583-EB5CD2DD789E}

@@ -26,7 +26,7 @@ public class HomeController : Controller
         return View(nameof(Index));
     }
 
-    [SitemapInclude]
+    [SitemapExclude]
     public IActionResult Privacy()
     {
         return View();

@@ -52,16 +52,27 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
     {
         if (!CacheEnabled)
         {
-            _logger.LogTrace("Cache is disabled, creating sitemap without caching");
+            if (_logger.IsEnabled(LogLevel.Trace))
+            {
+                _logger.LogTrace("Cache is disabled, creating sitemap without caching");
+            }
+
             return await CreateSitemapInternalAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        _logger.LogTrace("Cache is enabled, trying to get sitemap from cache");
+        if (_logger.IsEnabled(LogLevel.Trace))
+        {
+            _logger.LogTrace("Cache is enabled, trying to get sitemap from cache");
+        }
 
         var xml = await _cache.GetStringAsync(CacheKey, cancellationToken).ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(xml))
         {
-            _logger.LogTrace("Sitemap found in cache, returning cached sitemap");
+            if (_logger.IsEnabled(LogLevel.Trace))
+            {
+                _logger.LogTrace("Sitemap found in cache, returning cached sitemap");
+            }
+
             return xml;
         }
 
@@ -71,7 +82,11 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_options.Value.CacheAbsoluteExpirationInMinutes)
         }, cancellationToken);
 
-        _logger.LogTrace("Sitemap created and cached, returning sitemap");
+        if (_logger.IsEnabled(LogLevel.Trace))
+        {
+            _logger.LogTrace("Sitemap created and cached, returning sitemap");
+        }
+
         return xml;
     }
 
@@ -83,9 +98,12 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
 
     private Core.Sitemap CreateSitemapObject()
     {
-        var controllers = _controllerService.GetControllersFromEntryAssembly();
+        var controllers = _controllerService.GetControllersFromAssembly(_options.Value.AssemblyMarker);
 
-        _logger.LogTrace("Found {ControllerCount} controllers", controllers.Count);
+        if (_logger.IsEnabled(LogLevel.Trace))
+        {
+            _logger.LogTrace("Found {ControllerCount} controllers", controllers.Count);
+        }
 
         var nodes = new HashSet<SitemapNode>();
         foreach (var controllerNodes in controllers.Select(controller => _controllerSitemapService.CreateSitemap(controller)))

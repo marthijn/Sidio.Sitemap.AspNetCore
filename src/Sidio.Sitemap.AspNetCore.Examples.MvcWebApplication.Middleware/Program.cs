@@ -1,4 +1,5 @@
 using Sidio.Sitemap.AspNetCore;
+using Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware;
 using Sidio.Sitemap.AspNetCore.Middleware;
 using Sidio.Sitemap.Core.Services;
 
@@ -12,6 +13,7 @@ builder.Services
         options =>
         {
             options.EndpointInclusionMode = EndpointInclusionMode.OptIn;
+            options.AssemblyMarker = typeof(IAssemblyMarker); // set the assembly marker, required for the integration tests
         })
     .AddControllersWithViews();
 
@@ -39,3 +41,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+public partial class Program;
