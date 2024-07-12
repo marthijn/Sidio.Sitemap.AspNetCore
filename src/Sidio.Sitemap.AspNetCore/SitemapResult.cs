@@ -12,7 +12,7 @@ namespace Sidio.Sitemap.AspNetCore;
 /// </summary>
 public sealed class SitemapResult : ActionResult
 {
-    private const string ContentType = "application/xml";
+    internal const string ContentType = "application/xml";
 
     private readonly SitemapIndex? _sitemapIndex;
 
