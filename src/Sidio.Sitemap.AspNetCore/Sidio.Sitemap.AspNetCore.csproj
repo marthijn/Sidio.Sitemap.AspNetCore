@@ -17,6 +17,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Deterministic>true</Deterministic>
+    <PackageReleaseNotes>https://github.com/marthijn/Sidio.Sitemap.AspNetCore/releases</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
