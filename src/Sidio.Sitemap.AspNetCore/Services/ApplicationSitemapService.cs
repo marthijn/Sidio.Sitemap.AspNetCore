@@ -20,16 +20,18 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
     private readonly IDistributedCache? _cache;
     private readonly IOptions<SitemapMiddlewareOptions> _options;
     private readonly IControllerService _controllerService;
+    private readonly IRazorPageSitemapService _razorPageSitemapService;
     private readonly ILogger<ApplicationSitemapService> _logger;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ApplicationSitemapService"/> class.
     /// </summary>
     /// <param name="sitemapService">The sitemap service.</param>
-    /// <param name="controllerSitemapService">The controller sitemap servicve.</param>
+    /// <param name="controllerSitemapService">The controller sitemap service.</param>
     /// <param name="cache">The cache.</param>
     /// <param name="options">Options.</param>
     /// <param name="controllerService">The controller service.</param>
+    /// <param name="razorPageSitemapService">The razor pages sitemap service.</param>
     /// <param name="logger">The logger.</param>
     public ApplicationSitemapService(
         ISitemapService sitemapService,
@@ -37,6 +39,7 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
         IDistributedCache? cache,
         IOptions<SitemapMiddlewareOptions> options,
         IControllerService controllerService,
+        IRazorPageSitemapService razorPageSitemapService,
         ILogger<ApplicationSitemapService> logger)
     {
         _sitemapService = sitemapService;
@@ -44,6 +47,7 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
         _cache = cache;
         _options = options;
         _controllerService = controllerService;
+        _razorPageSitemapService = razorPageSitemapService;
         _logger = logger;
     }
 
@@ -109,6 +113,12 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
         foreach (var controllerNodes in controllers.Select(controller => _controllerSitemapService.CreateSitemap(controller)))
         {
             nodes.UnionWith(controllerNodes);
+        }
+
+        var razorPages = _razorPageSitemapService.CreateSitemap();
+        if (razorPages.Count > 0)
+        {
+            nodes.UnionWith(razorPages);
         }
 
         return new (nodes);

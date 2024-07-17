@@ -91,7 +91,11 @@ public sealed class ApplicationSitemapServiceTests
 
         var controllerSitemapServiceMock = new Mock<IControllerSitemapService>();
         controllerSitemapServiceMock.Setup(x => x.CreateSitemap(It.IsAny<Type>()))
-            .Returns(new List<SitemapNode> {new SitemapNode("/test")});
+            .Returns(new HashSet<SitemapNode> {new SitemapNode("/test1")});
+
+        var razorPagesSitemapServiceMock = new Mock<IRazorPageSitemapService>();
+        razorPagesSitemapServiceMock.Setup(x => x.CreateSitemap())
+            .Returns(new HashSet<SitemapNode> {new SitemapNode("/test2")});
 
         distributedCacheMock = new Mock<IDistributedCache>();
 
@@ -105,6 +109,7 @@ public sealed class ApplicationSitemapServiceTests
             distributedCacheMock.Object,
             Options.Create(options),
             controllerServiceMock.Object,
+            razorPagesSitemapServiceMock.Object,
             NullLogger<ApplicationSitemapService>.Instance);
     }
 
