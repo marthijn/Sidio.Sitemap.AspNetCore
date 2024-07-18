@@ -19,6 +19,7 @@ public static class ServiceCollectionExtensions
         serviceCollection.Configure(options);
         serviceCollection.AddScoped<IControllerService, ControllerService>();
         serviceCollection.AddScoped<IControllerSitemapService, ControllerSitemapService>();
+        serviceCollection.AddScoped<IRazorPageSitemapService, RazorPagesSitemapService>();
         serviceCollection.AddScoped<IApplicationSitemapService, ApplicationSitemapService>();
         return serviceCollection;
     }

@@ -46,7 +46,7 @@ public sealed class ControllerSitemapService : IControllerSitemapService
     }
 
     /// <inheritdoc />
-    public IEnumerable<SitemapNode> CreateSitemap(Type controllerType)
+    public IReadOnlySet<SitemapNode> CreateSitemap(Type controllerType)
     {
         var inclusionMethod = _options.Value.EndpointInclusionMode;
         var actions = _actionDescriptorCollectionProvider.ActionDescriptors.Items
@@ -63,6 +63,11 @@ public sealed class ControllerSitemapService : IControllerSitemapService
         }
 
         var nodes = new HashSet<SitemapNode>();
+        if (actions.Count == 0)
+        {
+            return nodes;
+        }
+
         if (inclusionMethod == EndpointInclusionMode.OptIn)
         {
             var methods = GetControllerMethodsOptIn(

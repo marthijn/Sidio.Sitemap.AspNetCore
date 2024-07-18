@@ -81,7 +81,7 @@ builder.Services.
 app.UseSitemap();
 ```
 
-### Attributes
+### Controller and action attributes
 Decorate your controllers and/or actions with the `[SitemapInclude]` or `[SitemapExclude]` attribute.
 
 When using `OptIn` mode, only controllers and/or actions decorated with `[SitemapInclude]` will be included in the sitemap.
@@ -99,6 +99,17 @@ When using `OptOut` mode, controllers and/or actions decorated with `[SitemapExc
 public IActionResult Index()
 {
     return View();
+}
+```
+
+### Razor pages
+Similar to controllers and actions, the attributes can be used in razor pages:
+```cshtml
+@page
+@attribute [SitemapExclude]
+@model LoginModel
+@{
+    ViewData["Title"] = "My login page";
 }
 ```
 

@@ -44,7 +44,7 @@ public sealed class ControllerSitemapServiceTests
                 1));
 
         // act
-        var result = service.CreateSitemap(typeof(ActionIncludeController)).ToList();
+        var result = service.CreateSitemap(typeof(ActionIncludeController));
 
         // assert
         result.Should().NotBeNullOrEmpty();
@@ -78,7 +78,7 @@ public sealed class ControllerSitemapServiceTests
                 1));
 
         // act
-        var result = service.CreateSitemap(typeof(ActionIncludeController)).ToList();
+        var result = service.CreateSitemap(typeof(ActionIncludeController));
 
         // assert
         result.Should().BeEmpty();
@@ -111,7 +111,7 @@ public sealed class ControllerSitemapServiceTests
                 1));
 
         // act
-        var result = service.CreateSitemap(typeof(ControllerIncludeController)).ToList();
+        var result = service.CreateSitemap(typeof(ControllerIncludeController));
 
         // assert
         result.Should().NotBeNullOrEmpty();
@@ -145,7 +145,7 @@ public sealed class ControllerSitemapServiceTests
                 1));
 
         // act
-        var result = service.CreateSitemap(typeof(ActionExcludeController)).ToList();
+        var result = service.CreateSitemap(typeof(ActionExcludeController));
 
         // assert
         result.Should().BeEmpty();
@@ -178,7 +178,7 @@ public sealed class ControllerSitemapServiceTests
                 1));
 
         // act
-        var result = service.CreateSitemap(typeof(ActionExcludeController)).ToList();
+        var result = service.CreateSitemap(typeof(ActionExcludeController));
 
         // assert
         result.Should().NotBeNullOrEmpty();
@@ -212,7 +212,7 @@ public sealed class ControllerSitemapServiceTests
                 1));
 
         // act
-        var result = service.CreateSitemap(typeof(ControllerExcludeController)).ToList();
+        var result = service.CreateSitemap(typeof(ControllerExcludeController));
 
         // assert
         result.Should().BeEmpty();

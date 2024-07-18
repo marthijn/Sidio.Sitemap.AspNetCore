@@ -11,6 +11,6 @@ public interface IControllerSitemapService
     /// Returns a collection of sitemap nodes for the specified controller type.
     /// </summary>
     /// <param name="controllerType">The controller type.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="SitemapNode"/> objects.</returns>
-    IEnumerable<SitemapNode> CreateSitemap(Type controllerType);
+    /// <returns>A <see cref="IReadOnlySet{T}"/> of <see cref="SitemapNode"/> objects.</returns>
+    IReadOnlySet<SitemapNode> CreateSitemap(Type controllerType);
 }
