@@ -88,19 +88,28 @@ public sealed class ControllerSitemapService : IControllerSitemapService
 
     private HttpContext HttpContext => _httpContextAccessor.HttpContext ?? throw new InvalidOperationException("HttpContext is null");
 
-    private SitemapNode CreateNode(ControllerActionDescriptor action)
+    private SitemapNode? CreateNode(ControllerActionDescriptor action)
     {
         var url = _linkGenerator.GetUriByAction(HttpContext, action.ActionName, action.ControllerName);
 
-        if (_logger.IsEnabled(LogLevel.Trace))
+        if (_logger.IsEnabled(LogLevel.Warning) && string.IsNullOrWhiteSpace(url))
+        {
+            _logger.LogWarning(
+                "Unable to create sitemap URL for action `{Action}` in controller `{Controller}`",
+                action.ActionName,
+                action.ControllerName);
+        }
+
+        if (_logger.IsEnabled(LogLevel.Trace) && !string.IsNullOrWhiteSpace(url))
         {
             _logger.LogTrace(
                 "Created sitemap URL for action `{Action}` in controller `{Controller}`",
                 action.ActionName,
                 action.ControllerName);
+
         }
 
-        return new SitemapNode(url);
+        return !string.IsNullOrWhiteSpace(url) ? new SitemapNode(url) : null;
     }
 
     private HashSet<SitemapNode> GetControllerMethodsOptIn(Type controllerType, IEnumerable<ControllerActionDescriptor> actions)
@@ -114,7 +123,10 @@ public sealed class ControllerSitemapService : IControllerSitemapService
             if (includeFunction)
             {
                 var node = CreateNode(action);
-                nodes.Add(node);
+                if (node != null)
+                {
+                    nodes.Add(node);
+                }
             }
             else
             {
@@ -153,7 +165,10 @@ public sealed class ControllerSitemapService : IControllerSitemapService
             if (!excludeFunction)
             {
                 var node = CreateNode(action);
-                nodes.Add(node);
+                if (node != null)
+                {
+                    nodes.Add(node);
+                }
             }
             else
             {

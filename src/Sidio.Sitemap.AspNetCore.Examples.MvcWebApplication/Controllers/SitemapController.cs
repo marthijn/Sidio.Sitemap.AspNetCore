@@ -10,10 +10,10 @@ public sealed class SitemapController : Controller
     public IActionResult SitemapIndex()
     {
         var sitemapIndex = new SitemapIndex();
-        sitemapIndex.Add(new SitemapIndexNode(Url.Action("SitemapHome")));
-        sitemapIndex.Add(new SitemapIndexNode(Url.Action("SitemapNews")));
-        sitemapIndex.Add(new SitemapIndexNode(Url.Action("SitemapImages")));
-        sitemapIndex.Add(new SitemapIndexNode(Url.Action("SitemapVideos")));
+        _ = sitemapIndex.TryAdd(Url.Action("SitemapHome"));
+        _ = sitemapIndex.TryAdd(Url.Action("SitemapNews"));
+        _ = sitemapIndex.TryAdd(Url.Action("SitemapImages"));
+        _ = sitemapIndex.TryAdd(Url.Action("SitemapVideos"));
 
         return new SitemapResult(sitemapIndex);
     }
@@ -22,8 +22,10 @@ public sealed class SitemapController : Controller
     public IActionResult SitemapHome()
     {
         var sitemap = new Core.Sitemap();
-        sitemap.Add(new SitemapNode(Url.Action("Index", "Home")));
-        sitemap.Add(new SitemapNode(Url.Action("Privacy", "Home")));
+
+        // handle null warnings by using the TryAdd function
+        _ = sitemap.TryAdd(Url.Action("Index", "Home"));
+        _ = sitemap.TryAdd(Url.Action("Privacy", "Home"));
 
         return new SitemapResult(sitemap);
     }
@@ -32,7 +34,13 @@ public sealed class SitemapController : Controller
     public IActionResult SitemapNews()
     {
         var sitemap = new Core.Sitemap();
-        sitemap.Add(new SitemapNewsNode(Url.Action("Article1", "News"), "Article1", "John Doe", "EN", DateTime.UtcNow));
+
+        // handle null warnings by checking the URL for null
+        var url = Url.Action("Article1", "News");
+        if (url != null)
+        {
+            sitemap.Add(new SitemapNewsNode(url, "Article1", "John Doe", "EN", DateTime.UtcNow));
+        }
 
         return new SitemapResult(sitemap);
     }
@@ -43,7 +51,9 @@ public sealed class SitemapController : Controller
         var imageLocation = new ImageLocation("non-existing-image.jpg");
 
         var sitemap = new Core.Sitemap();
-        sitemap.Add(new SitemapImageNode(Url.Action("Index", "Home"), imageLocation));
+
+        // handle null warnings by using the Create function
+        sitemap.Add(SitemapImageNode.Create(Url.Action("Index", "Home"), imageLocation));
 
         return new SitemapResult(sitemap);
     }
@@ -54,7 +64,7 @@ public sealed class SitemapController : Controller
         var video = new VideoContent("non-existing-video-thumbnail.jpg", "Video1", "Video1 description", "non-existing-video.mp4", null);
 
         var sitemap = new Core.Sitemap();
-        sitemap.Add(new SitemapVideoNode(Url.Action("Index", "Home"), video));
+        sitemap.Add(SitemapVideoNode.Create(Url.Action("Index", "Home"), video));
 
         return new SitemapResult(sitemap);
     }

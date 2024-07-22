@@ -24,7 +24,7 @@ services.AddDefaultSitemapServices<HttpContextBaseUrlProvider>();
 [HttpGet]
 public IActionResult Sitemap()
 {
-    var nodes = new List<SitemapNode> { new ("page.html"), new (Url.Action("Index")) };
+    var nodes = new List<SitemapNode> { new ("page.html"), SitemapNode.Create(Url.Action("Index")) };
     var sitemap = new Sitemap(nodes);
     return new SitemapResult(sitemap);
 }
@@ -36,8 +36,17 @@ public IActionResult Sitemap()
 public IActionResult SitemapIndex()
 {
     var sitemapIndex = new SitemapIndex();
+    
+    // basic usage:
     sitemapIndex.Add(new SitemapIndexNode(Url.Action("Sitemap1")));
-    sitemapIndex.Add(new SitemapIndexNode(Url.Action("Sitemap2")));
+    
+    // or: this extension function fixes the null reference warning
+    // on the line above:
+    var addResult = sitemapIndex.TryAdd(Url.Action("Sitemap2"));
+    
+    // or: use the Create function
+    sitemapIndex.Add(SitemapIndexNode.Create(Url.Action("Sitemap1")));
+    
     return new SitemapResult(sitemapIndex);
 }
 
