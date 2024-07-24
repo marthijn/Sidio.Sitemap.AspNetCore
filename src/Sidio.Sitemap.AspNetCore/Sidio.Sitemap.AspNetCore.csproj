@@ -44,4 +44,8 @@
     <PackageReference Include="Sidio.Sitemap.Core" Version="2.5.0" />
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
 </Project>
