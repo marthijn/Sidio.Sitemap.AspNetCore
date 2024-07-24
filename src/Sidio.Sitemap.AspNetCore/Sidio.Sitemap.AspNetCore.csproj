@@ -8,7 +8,6 @@
     <Authors>Marthijn van den Heuvel,Sidio</Authors>
     <Copyright>Copyright (c) 2024 Marthijn van den Heuvel</Copyright>
     <PackageId>Sidio.Sitemap.AspNetCore</PackageId>
-    <RepositoryUrl>https://github.com/marthijn/Sidio.Sitemap.AspNetCore/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -19,10 +18,8 @@
     <Deterministic>true</Deterministic>
     <PackageReleaseNotes>https://github.com/marthijn/Sidio.Sitemap.AspNetCore/releases</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,6 +37,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Sidio.Sitemap.Core" Version="2.5.0" />
   </ItemGroup>
 
