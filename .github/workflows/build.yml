@@ -32,11 +32,15 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release
       - name: Test with dotnet
-        run: dotnet test --configuration Release --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+        run: dotnet test --configuration Release
+          /p:CollectCoverage=true
+          /p:CoverletOutputFormat="\"cobertura,json\""
+          /p:CoverletOutput=coverage/
+          /p:IncludeTestAssembly=false
       - name: Upload dotnet test results
-        uses: actions/upload-artifact@v4
+        uses: coverallsapp/github-action@v2.3.0
         with:
-          name: dotnet-results-${{ matrix.dotnet-version }}
-          path: TestResults-${{ matrix.dotnet-version }}
-        # Use always() to always run this step to publish test results when there are test failures
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          files: /home/runner/work/Sidio.Sitemap.AspNetCore/Sidio.Sitemap.AspNetCore/src/Sidio.Sitemap.AspNetCore.Tests/coverage/coverage.cobertura.xml /home/runner/work/Sidio.Sitemap.AspNetCore/Sidio.Sitemap.AspNetCore/src/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.Tests/coverage/coverage.cobertura.xml /home/runner/work/Sidio.Sitemap.AspNetCore/Sidio.Sitemap.AspNetCore/src/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests/coverage/coverage.cobertura.xml /home/runner/work/Sidio.Sitemap.AspNetCore/Sidio.Sitemap.AspNetCore/src/Sidio.Sitemap.AspNetCore.Examples.RazorPages.Middleware.Tests/coverage/coverage.cobertura.xml
+          format: cobertura
         if: ${{ always() }}
