@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Sidio.Sitemap.AspNetCore;
 using Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware;
 using Sidio.Sitemap.AspNetCore.Middleware;
@@ -42,4 +43,5 @@ app.MapControllerRoute(
 
 app.Run();
 
+[ExcludeFromCodeCoverage]
 public partial class Program;

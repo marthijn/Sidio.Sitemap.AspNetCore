@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Sidio.Sitemap.AspNetCore;
 using Sidio.Sitemap.Core.Services;
 
@@ -31,4 +32,5 @@ app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Inde
 
 app.Run();
 
+[ExcludeFromCodeCoverage]
 public partial class Program;

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Sidio.Sitemap.AspNetCore;
 using Sidio.Sitemap.AspNetCore.Examples.RazorPages.Middleware;
 using Sidio.Sitemap.AspNetCore.Middleware;
@@ -39,4 +40,5 @@ app.MapRazorPages();
 
 app.Run();
 
+[ExcludeFromCodeCoverage]
 public partial class Program;
