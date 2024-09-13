@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Sidio.Sitemap.AspNetCore.Middleware;
 using Sidio.Sitemap.AspNetCore.Services;
@@ -110,7 +109,7 @@ public sealed class ApplicationSitemapServiceTests
             Options.Create(options),
             controllerServiceMock.Object,
             razorPagesSitemapServiceMock.Object,
-            NullLogger<ApplicationSitemapService>.Instance);
+            new AssertLogger<ApplicationSitemapService>());
     }
 
     private sealed class DummyController : Controller

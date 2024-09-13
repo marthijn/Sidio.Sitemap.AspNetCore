@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Sidio.Sitemap.AspNetCore.Middleware;
 using Sidio.Sitemap.AspNetCore.Services;
@@ -151,6 +150,6 @@ public sealed class RazorPagesSitemapServiceTests
             actionDescriptorCollectionProvider.Object,
             httpContextAccessor.Object,
             Options.Create(options),
-            NullLogger<RazorPagesSitemapService>.Instance);
+            new AssertLogger<RazorPagesSitemapService>());
     }
 }

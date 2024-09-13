@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Sidio.Sitemap.AspNetCore.Middleware;
 using Sidio.Sitemap.AspNetCore.Services;
@@ -245,7 +244,7 @@ public sealed class ControllerSitemapServiceTests
             actionDescriptorCollectionProvider.Object,
             httpContextAccessor.Object,
             Options.Create(options),
-            NullLogger<ControllerSitemapService>.Instance);
+            new AssertLogger<ControllerSitemapService>());
     }
 
     private sealed class ActionIncludeController : Controller
