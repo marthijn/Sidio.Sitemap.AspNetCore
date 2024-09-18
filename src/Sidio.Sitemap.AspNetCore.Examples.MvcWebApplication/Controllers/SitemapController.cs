@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc;
 using Sidio.Sitemap.Core;
 using Sidio.Sitemap.Core.Extensions;
 
 namespace Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Controllers;
 
+[ExcludeFromCodeCoverage]
 public sealed class SitemapController : Controller
 {
     [Route("sitemap.xml")]
