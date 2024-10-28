@@ -38,7 +38,7 @@ jobs:
           /p:CoverletOutput=coverage/
           /p:IncludeTestAssembly=false
       - name: Upload dotnet test results
-        uses: coverallsapp/github-action@v2.3.3
+        uses: coverallsapp/github-action@v2.3.4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           files: ${{ github.workspace }}/src/Sidio.Sitemap.AspNetCore.Tests/coverage/coverage.cobertura.xml ${{ github.workspace }}/src/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.Tests/coverage/coverage.cobertura.xml ${{ github.workspace }}/src/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests/coverage/coverage.cobertura.xml ${{ github.workspace }}/src/Sidio.Sitemap.AspNetCore.Examples.RazorPages.Middleware.Tests/coverage/coverage.cobertura.xml
