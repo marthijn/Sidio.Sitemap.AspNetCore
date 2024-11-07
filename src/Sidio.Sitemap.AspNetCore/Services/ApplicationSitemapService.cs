@@ -36,7 +36,33 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
     public ApplicationSitemapService(
         ISitemapService sitemapService,
         IControllerSitemapService controllerSitemapService,
-        IDistributedCache? cache,
+        IDistributedCache cache,
+        IOptions<SitemapMiddlewareOptions> options,
+        IControllerService controllerService,
+        IRazorPageSitemapService razorPageSitemapService,
+        ILogger<ApplicationSitemapService> logger) : this(
+        sitemapService,
+        controllerSitemapService,
+        options,
+        controllerService,
+        razorPageSitemapService,
+        logger)
+    {
+        _cache = cache;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ApplicationSitemapService"/> class.
+    /// </summary>
+    /// <param name="sitemapService">The sitemap service.</param>
+    /// <param name="controllerSitemapService">The controller sitemap service.</param>
+    /// <param name="options">Options.</param>
+    /// <param name="controllerService">The controller service.</param>
+    /// <param name="razorPageSitemapService">The razor pages sitemap service.</param>
+    /// <param name="logger">The logger.</param>
+    public ApplicationSitemapService(
+        ISitemapService sitemapService,
+        IControllerSitemapService controllerSitemapService,
         IOptions<SitemapMiddlewareOptions> options,
         IControllerService controllerService,
         IRazorPageSitemapService razorPageSitemapService,
@@ -44,7 +70,6 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
     {
         _sitemapService = sitemapService;
         _controllerSitemapService = controllerSitemapService;
-        _cache = cache;
         _options = options;
         _controllerService = controllerService;
         _razorPageSitemapService = razorPageSitemapService;
