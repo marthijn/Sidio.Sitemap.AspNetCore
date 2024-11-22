@@ -51,7 +51,7 @@ public sealed class ControllerSitemapService : IControllerSitemapService
         var inclusionMethod = _options.Value.EndpointInclusionMode;
         var actions = _actionDescriptorCollectionProvider.ActionDescriptors.Items
             .OfType<ControllerActionDescriptor>()
-            .Where(x => x.ControllerTypeInfo.BaseType == typeof(Controller))
+            .Where(x => IsSitemapController(x.ControllerTypeInfo))
             .ToList();
 
         if (_logger.IsEnabled(LogLevel.Trace))
@@ -72,19 +72,22 @@ public sealed class ControllerSitemapService : IControllerSitemapService
         {
             var methods = GetControllerMethodsOptIn(
                 controllerType,
-                actions.Where(x => x.ControllerTypeInfo.BaseType == typeof(Controller)));
+                actions.Where(x => IsSitemapController(x.ControllerTypeInfo)));
             nodes.UnionWith(methods);
         }
         else
         {
             var methods = GetControllerMethodsOptOut(
                 controllerType,
-                actions.Where(x => x.ControllerTypeInfo.BaseType == typeof(Controller)));
+                actions.Where(x => IsSitemapController(x.ControllerTypeInfo)));
             nodes.UnionWith(methods);
         }
 
         return nodes;
     }
+
+    private static bool IsSitemapController(TypeInfo typeInfo) =>
+        typeInfo.BaseType == typeof(Controller) || typeInfo.BaseType == typeof(ControllerBase);
 
     private HttpContext HttpContext => _httpContextAccessor.HttpContext ?? throw new InvalidOperationException("HttpContext is null");
 
