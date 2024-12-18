@@ -15,15 +15,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    strategy:
-      matrix:
-        dotnet-version: [ '9.x' ]
+
     steps:
       - uses: actions/checkout@v4
-      - name: Setup dotnet
+      - name: Setup dotnet 8.x
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: 8.x
+      - name: Setup dotnet 9.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
       - name: Set RELEASE_VERSION variable from tag
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Print release version
