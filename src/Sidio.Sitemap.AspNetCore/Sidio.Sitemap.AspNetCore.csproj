@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Authors>Marthijn van den Heuvel,Sidio</Authors>
-    <Copyright>Copyright (c) 2024 Marthijn van den Heuvel</Copyright>
+    <Copyright>Copyright (c) 2024-2025 Marthijn van den Heuvel</Copyright>
     <PackageId>Sidio.Sitemap.AspNetCore</PackageId>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
