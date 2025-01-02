@@ -1,0 +1,6 @@
+@Sidio.Sitemap.AspNetCore.Examples.WebApiApplication.Middleware_HostAddress = http://localhost:5240
+
+GET {{Sidio.Sitemap.AspNetCore.Examples.WebApiApplication.Middleware_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

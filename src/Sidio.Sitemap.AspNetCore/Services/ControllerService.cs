@@ -17,6 +17,21 @@ internal sealed class ControllerService : IControllerService
     [ExcludeFromCodeCoverage]
     public IReadOnlyList<Type> GetControllersFromAssembly(Type? assemblyMarker = null)
     {
+        var types = GetTypes(assemblyMarker);
+        return types
+            .Where(type => typeof(Controller).IsAssignableFrom(type)).ToList();
+    }
+
+    [ExcludeFromCodeCoverage]
+    public IReadOnlyList<Type> GetControllerBasesFromAssembly(Type? assemblyMarker = null)
+    {
+        var types = GetTypes(assemblyMarker);
+        return types
+            .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
+    }
+
+    private Type[] GetTypes(Type? assemblyMarker = null)
+    {
         var currentAssembly = assemblyMarker != null ? Assembly.GetAssembly(assemblyMarker) : Assembly.GetEntryAssembly();
         if (currentAssembly == null)
         {
@@ -28,8 +43,6 @@ internal sealed class ControllerService : IControllerService
             _logger.LogTrace("Retrieving controllers from assembly `{Assembly}`", currentAssembly.FullName);
         }
 
-        var types = currentAssembly.GetTypes();
-        return types
-            .Where(type => typeof(Controller).IsAssignableFrom(type)).ToList();
+        return currentAssembly.GetTypes();
     }
 }

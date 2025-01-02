@@ -146,6 +146,16 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
             nodes.UnionWith(razorPages);
         }
 
+        if (_options.Value.IncludeApiControllers)
+        {
+            var apiControllers = _controllerService.GetControllerBasesFromAssembly(_options.Value.AssemblyMarker);
+            foreach (var apiController in apiControllers.Select(
+                         controller => _controllerSitemapService.CreateSitemap(controller)))
+            {
+                nodes.UnionWith(apiController);
+            }
+        }
+
         return new (nodes);
     }
 

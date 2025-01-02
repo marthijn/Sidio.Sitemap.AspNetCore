@@ -112,6 +112,19 @@ public IActionResult Index()
 }
 ```
 
+#### API controllers
+Indexing of API controllers is supported as well by configuring the `SitemapMiddleware`:
+```csharp
+builder.Services
+    // ...
+    .AddSitemapMiddleware(
+        options =>
+        {
+            // ...
+            options.IncludeApiControllers = true;
+        })
+```
+
 ### Razor pages
 Similar to controllers and actions, the attributes can be used in razor pages:
 ```cshtml
