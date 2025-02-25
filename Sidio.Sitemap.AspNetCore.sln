@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build.yml = .github\workflows\build.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
+		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sidio.Sitemap.AspNetCore.Tests", "src\Sidio.Sitemap.AspNetCore.Tests\Sidio.Sitemap.AspNetCore.Tests.csproj", "{FF6107F5-2129-4482-976D-4A59B7CF9012}"
