@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sidio.Sitemap.AspNetCore.Examples.WebApiApplication.Middleware.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[ExcludeFromCodeCoverage]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries =
