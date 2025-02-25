@@ -37,10 +37,21 @@ jobs:
           /p:CoverletOutputFormat="\"cobertura,json\""
           /p:CoverletOutput=coverage/
           /p:IncludeTestAssembly=false
+      - name: ReportGenerator
+        uses: danielpalme/ReportGenerator-GitHub-Action@v5
+        with:
+          reports: src/**/coverage/*.cobertura.xml
+          targetdir: coveragereport/
+          reporttypes: "Cobertura"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coveragereport
+          path: coveragereport/
       - name: Upload dotnet test results
         uses: coverallsapp/github-action@v2.3.6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          files: ${{ github.workspace }}/src/Sidio.Sitemap.AspNetCore.Tests/coverage/coverage.net8.0.cobertura.xml ${{ github.workspace }}/src/Sidio.Sitemap.AspNetCore.Tests/coverage/coverage.net9.0.cobertura.xml ${{ github.workspace }}/src/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.Tests/coverage/coverage.cobertura.xml ${{ github.workspace }}/src/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests/coverage/coverage.cobertura.xml ${{ github.workspace }}/src/Sidio.Sitemap.AspNetCore.Examples.RazorPages.Middleware.Tests/coverage/coverage.cobertura.xml
+          files: ${{ github.workspace }}/coveragereport/Cobertura.xml
           format: cobertura
         if: ${{ always() }}
