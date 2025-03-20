@@ -18,9 +18,9 @@ public sealed class SitemapMiddlewareOptions
     public bool CacheEnabled { get; set; }
 
     /// <summary>
-    /// Gets or sets the cache absolute expiration in minutes.
+    /// Gets or sets the cache duration in minutes.
     /// </summary>
-    public int CacheAbsoluteExpirationInMinutes { get; set; } = 60;
+    public int CacheDurationInMinutes { get; set; } = 60;
 
     /// <summary>
     /// Gets or sets the assembly marker type from which to retrieve controllers.

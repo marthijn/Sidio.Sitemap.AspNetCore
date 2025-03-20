@@ -108,7 +108,7 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
             },
             new HybridCacheEntryOptions
             {
-                Expiration = TimeSpan.FromMinutes(_options.Value.CacheAbsoluteExpirationInMinutes)
+                Expiration = TimeSpan.FromMinutes(_options.Value.CacheDurationInMinutes)
             },
             cancellationToken: cancellationToken);
         return xml;
