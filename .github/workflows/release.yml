@@ -7,6 +7,11 @@ on:
       - "[0-9]+.[0-9]+.[0-9]+"
       - "[0-9]+.[0-9]+.[0-9]+-preview"
 
+permissions:
+  contents: read
+  actions: read
+  id-token: write
+
 env:
   DOTNET_NOLOGO: true
   NuGetDirectory: ${{ github.workspace}}/nuget/release
