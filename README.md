@@ -144,7 +144,33 @@ Similar to controllers and actions, the attributes can be used in razor pages:
 ```
 
 ### Caching
-Configure the [`IDistributedCache`](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed) to use caching of the Sitemap.
+Configure the [`HybridCache`](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/hybrid) to use caching of the Sitemap.
+```csharp
+builder.Services.AddHybridCache();
+builder.Services
+    // ...
+    .AddSitemapMiddleware(
+        options =>
+        {
+            // ...
+            options.CacheEnabled = true;
+        })
+```
+
+# Upgrade to v3.x
+In version 3.x, the `IDistributedCache` is replaced with the `HybridCache`. Register the `HybridCache` in your startup file:
+```csharp
+builder.Services.AddHybridCache();
+```
+## Options
+```diff
+builder.Services.AddSitemapMiddleware(
+        options =>
+        {
+-            options.CacheAbsoluteExpirationInMinutes = 60;
++            options.CacheDurationInMinutes = 60;
+        })
+```
 
 # FAQ
 
