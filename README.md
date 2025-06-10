@@ -154,6 +154,8 @@ builder.Services
         {
             // ...
             options.CacheEnabled = true;
+            options.CacheDurationInMinutes = 60; // optional, default is 60 minutes
+            options.LocalCacheDurationInMinutes = 5; // optional, default is 5 minutes
         })
 ```
 

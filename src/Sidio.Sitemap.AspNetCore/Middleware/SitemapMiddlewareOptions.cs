@@ -23,6 +23,11 @@ public sealed class SitemapMiddlewareOptions
     public int CacheDurationInMinutes { get; set; } = 60;
 
     /// <summary>
+    /// Gets or sets the local cache duration in minutes.
+    /// </summary>
+    public int LocalCacheDurationInMinutes { get; set; } = 5;
+
+    /// <summary>
     /// Gets or sets the assembly marker type from which to retrieve controllers.
     /// When null, the entry assembly is used.
     /// </summary>
