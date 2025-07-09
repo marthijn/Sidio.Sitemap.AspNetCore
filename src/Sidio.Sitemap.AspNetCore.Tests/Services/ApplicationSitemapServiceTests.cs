@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Options;
 using Sidio.Sitemap.AspNetCore.Middleware;
 using Sidio.Sitemap.AspNetCore.Services;
@@ -18,71 +18,56 @@ public sealed class ApplicationSitemapServiceTests
         {
             CacheEnabled = false
         };
-        var service = CreateService(options, out var distributedCacheMock);
+        var service = CreateService(options, out var hybridCacheMock);
 
         // act
         var result = await service.CreateSitemapAsync();
 
         // assert
         result.Should().NotBeNullOrWhiteSpace();
-        distributedCacheMock.Verify(x => x.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        hybridCacheMock.VerifyNoOtherCalls();
     }
 
     [Fact]
-    public async Task CreateSitemapAsync_WhenCacheEnabledAndCacheIsEmpty_ShouldReturnSitemap()
+    public async Task CreateSitemapAsync_WhenCacheEnabled_ShouldReturnSitemap()
     {
         // arrange
+        const string SitemapResult = "<urlset></urlset>";
         var options = new SitemapMiddlewareOptions
         {
             CacheEnabled = true
         };
-        var service = CreateService(options, out var distributedCacheMock);
+        var service = CreateService(options, out var hybridCacheMock);
 
-        distributedCacheMock.Setup(x => x.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult((byte[]?)null));
+        hybridCacheMock.Setup(
+            x => x.GetOrCreateAsync(
+                It.IsAny<string>(),
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Func<It.IsAnyType, CancellationToken, ValueTask<string>>>(),
+                It.IsAny<HybridCacheEntryOptions?>(),
+                It.IsAny<IEnumerable<string>?>(),
+                It.IsAny<CancellationToken>())).ReturnsAsync(() => SitemapResult);
 
         // act
         var result = await service.CreateSitemapAsync();
 
         // assert
         result.Should().NotBeNullOrWhiteSpace();
-        distributedCacheMock.Verify(
-            x => x.SetAsync(
+        result.Should().Be(SitemapResult);
+        hybridCacheMock.Verify(
+            x => x.GetOrCreateAsync(
                 It.IsAny<string>(),
-                It.IsAny<byte[]>(),
-                It.IsAny<DistributedCacheEntryOptions>(),
+                It.IsAny<It.IsAnyType>(),
+                It.IsAny<Func<It.IsAnyType, CancellationToken, ValueTask<string>>>(),
+                It.IsAny<HybridCacheEntryOptions?>(),
+                It.IsAny<IEnumerable<string>?>(),
                 It.IsAny<CancellationToken>()),
             Times.Once);
     }
 
-    [Fact]
-    public async Task CreateSitemapAsync_WhenCacheEnabledAndCacheIsNotEmpty_ShouldReturnSitemap()
-    {
-        // arrange
-        var options = new SitemapMiddlewareOptions
-        {
-            CacheEnabled = true
-        };
-        var service = CreateService(options, out var distributedCacheMock);
-
-        distributedCacheMock.Setup(x => x.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult("<urlset></urlset>"u8.ToArray())!);
-
-        // act
-        var result = await service.CreateSitemapAsync();
-
-        // assert
-        result.Should().NotBeNullOrWhiteSpace();
-        distributedCacheMock.Verify(
-            x => x.SetAsync(
-                It.IsAny<string>(),
-                It.IsAny<byte[]>(),
-                It.IsAny<DistributedCacheEntryOptions>(),
-                It.IsAny<CancellationToken>()),
-            Times.Never);
-    }
-
     private static ApplicationSitemapService CreateService(
         SitemapMiddlewareOptions options,
-        out Mock<IDistributedCache> distributedCacheMock)
+        out Mock<HybridCache> hybridCacheMock)
     {
         var sitemapServiceMock = new Mock<ISitemapService>();
         sitemapServiceMock.Setup(x => x.SerializeAsync(It.IsAny<Core.Sitemap>(), It.IsAny<CancellationToken>()))
@@ -96,7 +81,7 @@ public sealed class ApplicationSitemapServiceTests
         razorPagesSitemapServiceMock.Setup(x => x.CreateSitemap())
             .Returns(new HashSet<SitemapNode> {new SitemapNode("/test2")});
 
-        distributedCacheMock = new Mock<IDistributedCache>();
+        hybridCacheMock = new Mock<HybridCache>();
 
         var controllerServiceMock = new Mock<IControllerService>();
         controllerServiceMock.Setup(x => x.GetControllersFromAssembly(It.IsAny<Type>()))
@@ -105,7 +90,7 @@ public sealed class ApplicationSitemapServiceTests
         return new ApplicationSitemapService(
             sitemapServiceMock.Object,
             controllerSitemapServiceMock.Object,
-            distributedCacheMock.Object,
+            hybridCacheMock.Object,
             Options.Create(options),
             controllerServiceMock.Object,
             razorPagesSitemapServiceMock.Object,
