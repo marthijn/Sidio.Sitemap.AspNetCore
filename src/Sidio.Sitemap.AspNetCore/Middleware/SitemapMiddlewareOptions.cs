@@ -18,9 +18,14 @@ public sealed class SitemapMiddlewareOptions
     public bool CacheEnabled { get; set; }
 
     /// <summary>
-    /// Gets or sets the cache absolute expiration in minutes.
+    /// Gets or sets the cache duration in minutes.
     /// </summary>
-    public int CacheAbsoluteExpirationInMinutes { get; set; } = 60;
+    public int CacheDurationInMinutes { get; set; } = 60;
+
+    /// <summary>
+    /// Gets or sets the local cache duration in minutes.
+    /// </summary>
+    public int LocalCacheDurationInMinutes { get; set; } = 5;
 
     /// <summary>
     /// Gets or sets the assembly marker type from which to retrieve controllers.
@@ -32,4 +37,9 @@ public sealed class SitemapMiddlewareOptions
     /// Gets or sets a value indicating whether to include API controllers (types derived from <see cref="ControllerBase"/>).
     /// </summary>
     public bool IncludeApiControllers { get; set; }
+
+    /// <summary>
+    /// Gets or sets the cache key prefix.
+    /// </summary>
+    public string? CacheKeyPrefix { get; set; }
 }
