@@ -11,17 +11,18 @@ updates:
       interval: "weekly"
     groups:
       microsoft:
+        tests:
+          patterns:
+            - "AutoFixture"
+            - "AwesomeAssertions"
+            - "xunit*"
+            - "*Test*"
+            - "coverlet*"
+            - "Moq"
+            - "Microsoft.AspNetCore.Mvc.Testing"
         patterns:
           - "Microsoft*"
-      tests:
-        patterns:
-          - "AutoFixture"
-          - "FluentAssertions"
-          - "xunit*"
-          - "*Test*"
-          - "coverlet*"
-          - "Moq"
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "weekly" 
+      interval: "monthly"
