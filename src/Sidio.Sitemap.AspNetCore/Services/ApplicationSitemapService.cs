@@ -89,13 +89,14 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
             return await CreateSitemapInternalAsync(cancellationToken).ConfigureAwait(false);
         }
 
+        var cacheKey = GetCacheKey();
         if (_logger.IsEnabled(LogLevel.Trace))
         {
-            _logger.LogTrace("Cache is enabled, trying to get sitemap from cache by key `{CacheKey}`", CacheKey);
+            _logger.LogTrace("Cache is enabled, trying to get sitemap from cache by key `{CacheKey}`", cacheKey);
         }
 
         var xml = await _cache.GetOrCreateAsync(
-            CacheKey,
+            cacheKey,
             async ct =>
             {
                 var xmlSiteMap = await CreateSitemapInternalAsync(ct).ConfigureAwait(false);
@@ -114,6 +115,8 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
             cancellationToken: cancellationToken);
         return xml;
     }
+
+    private string GetCacheKey() => string.IsNullOrWhiteSpace(_options.Value.CacheKeyPrefix) ? CacheKey : $"{_options.Value.CacheKeyPrefix}:{CacheKey}";
 
     private Task<string> CreateSitemapInternalAsync(CancellationToken cancellationToken = default)
     {

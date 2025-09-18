@@ -37,4 +37,9 @@ public sealed class SitemapMiddlewareOptions
     /// Gets or sets a value indicating whether to include API controllers (types derived from <see cref="ControllerBase"/>).
     /// </summary>
     public bool IncludeApiControllers { get; set; }
+
+    /// <summary>
+    /// Gets or sets the cache key prefix.
+    /// </summary>
+    public string? CacheKeyPrefix { get; set; }
 }
