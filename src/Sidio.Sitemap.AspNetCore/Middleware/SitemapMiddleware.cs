@@ -16,19 +16,22 @@ internal sealed class SitemapMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public Task InvokeAsync(HttpContext context)
     {
-        if (context.Request.Path == SitemapPath)
+        if (HttpMethods.IsGet(context.Request.Method) && context.Request.Path == SitemapPath)
         {
-            var resolverService = context.RequestServices.GetRequiredService<IApplicationSitemapService>();
-            var xml = await resolverService.CreateSitemapAsync().ConfigureAwait(false);
-
-            context.Response.ContentType = SitemapResult.ContentType;
-            await context.Response.WriteAsync(xml, Encoding.UTF8).ConfigureAwait(false);
-
-            return;
+            return HandleSitemapRequestAsync(context);
         }
 
-        await _next(context).ConfigureAwait(false);
+        return _next(context);
+    }
+
+    private static async Task HandleSitemapRequestAsync(HttpContext context)
+    {
+        var resolverService = context.RequestServices.GetRequiredService<IApplicationSitemapService>();
+        var xml = await resolverService.CreateSitemapAsync().ConfigureAwait(false);
+
+        context.Response.ContentType = SitemapResult.ContentType;
+        await context.Response.WriteAsync(xml, Encoding.UTF8).ConfigureAwait(false);
     }
 }
