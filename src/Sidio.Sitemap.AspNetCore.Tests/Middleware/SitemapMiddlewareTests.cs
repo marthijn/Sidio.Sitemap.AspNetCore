@@ -36,7 +36,8 @@ public sealed class SitemapMiddlewareTests
         {
             Request =
             {
-                Path = "/sitemap.xml"
+                Path = "/sitemap.xml",
+                Method = HttpMethods.Get
             },
             RequestServices = services.BuildServiceProvider()
         };

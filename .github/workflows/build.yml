@@ -32,6 +32,10 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 9.x
+      - name: Setup dotnet 10.x
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.x
       - name: Install dependencies
         run: dotnet restore
       - name: Build
@@ -50,7 +54,7 @@ jobs:
           targetdir: coveragereport/
           reporttypes: "Cobertura"
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: coveragereport
           path: coveragereport/

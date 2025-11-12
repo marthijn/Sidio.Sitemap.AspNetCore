@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
@@ -10,19 +10,19 @@
 
     <ItemGroup>
         <PackageReference Include="AutoFixture" Version="4.18.1" />
-        <PackageReference Include="AwesomeAssertions" Version="9.0.0" />
-        <PackageReference Include="AwesomeAssertions.Analyzers" Version="9.0.0">
+        <PackageReference Include="AwesomeAssertions" Version="9.3.0" />
+        <PackageReference Include="AwesomeAssertions.Analyzers" Version="9.0.8">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
         <PackageReference Include="Moq" Version="4.20.72" />
         <PackageReference Include="xunit" Version="2.9.3" />
-        <PackageReference Include="xunit.analyzers" Version="1.24.0">
+        <PackageReference Include="xunit.analyzers" Version="1.25.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4">
+        <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>

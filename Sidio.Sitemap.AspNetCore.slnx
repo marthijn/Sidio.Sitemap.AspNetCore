@@ -1,0 +1,29 @@
+<Solution>
+  <Folder Name="/Examples/">
+    <Project Path="src/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.csproj" />
+    <Project Path="src/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.csproj" />
+    <Project Path="src/Sidio.Sitemap.AspNetCore.Examples.RazorPages.Middleware/Sidio.Sitemap.AspNetCore.Examples.RazorPages.Middleware.csproj" />
+    <Project Path="src/Sidio.Sitemap.AspNetCore.Examples.WebApiApplication.Middleware/Sidio.Sitemap.AspNetCore.Examples.WebApiApplication.Middleware.csproj" />
+  </Folder>
+  <Folder Name="/SolutionItems/">
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Src/">
+    <Project Path="src/Sidio.Sitemap.AspNetCore/Sidio.Sitemap.AspNetCore.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="src/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.Tests/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Middleware.Tests.csproj" />
+    <Project Path="src/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests/Sidio.Sitemap.AspNetCore.Examples.MvcWebApplication.Tests.csproj" />
+    <Project Path="src/Sidio.Sitemap.AspNetCore.Examples.RazorPages.Middleware.Tests/Sidio.Sitemap.AspNetCore.Examples.RazorPages.Middleware.Tests.csproj" />
+    <Project Path="src/Sidio.Sitemap.AspNetCore.Examples.WebApiApplication.Middleware.Tests/Sidio.Sitemap.AspNetCore.Examples.WebApiApplication.Middleware.Tests.csproj" />
+    <Project Path="src/Sidio.Sitemap.AspNetCore.Tests/Sidio.Sitemap.AspNetCore.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Workflows/">
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/dependabot-autoapprove.yml" />
+    <File Path=".github/workflows/release.yml" />
+  </Folder>
+</Solution>
