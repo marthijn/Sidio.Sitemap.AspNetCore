@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sidio.Sitemap.AspNetCore.Middleware;
@@ -17,7 +17,7 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
 
     private readonly ISitemapService _sitemapService;
     private readonly IControllerSitemapService _controllerSitemapService;
-    private readonly IDistributedCache? _cache;
+    private readonly HybridCache? _cache;
     private readonly IOptions<SitemapMiddlewareOptions> _options;
     private readonly IControllerService _controllerService;
     private readonly IRazorPageSitemapService _razorPageSitemapService;
@@ -36,7 +36,7 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
     public ApplicationSitemapService(
         ISitemapService sitemapService,
         IControllerSitemapService controllerSitemapService,
-        IDistributedCache cache,
+        HybridCache cache,
         IOptions<SitemapMiddlewareOptions> options,
         IControllerService controllerService,
         IRazorPageSitemapService razorPageSitemapService,
@@ -89,35 +89,34 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
             return await CreateSitemapInternalAsync(cancellationToken).ConfigureAwait(false);
         }
 
+        var cacheKey = GetCacheKey();
         if (_logger.IsEnabled(LogLevel.Trace))
         {
-            _logger.LogTrace("Cache is enabled, trying to get sitemap from cache by key `{CacheKey}`", CacheKey);
+            _logger.LogTrace("Cache is enabled, trying to get sitemap from cache by key `{CacheKey}`", cacheKey);
         }
 
-        var xml = await _cache.GetStringAsync(CacheKey, cancellationToken).ConfigureAwait(false);
-        if (!string.IsNullOrWhiteSpace(xml))
-        {
-            if (_logger.IsEnabled(LogLevel.Trace))
+        var xml = await _cache.GetOrCreateAsync(
+            cacheKey,
+            async ct =>
             {
-                _logger.LogTrace("Sitemap found in cache, returning cached sitemap");
-            }
+                var xmlSiteMap = await CreateSitemapInternalAsync(ct).ConfigureAwait(false);
+                if (_logger.IsEnabled(LogLevel.Trace))
+                {
+                    _logger.LogTrace("Sitemap created and cached, returning sitemap");
+                }
 
-            return xml;
-        }
-
-        xml = await CreateSitemapInternalAsync(cancellationToken).ConfigureAwait(false);
-        await _cache.SetStringAsync(CacheKey, xml, new DistributedCacheEntryOptions
-        {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_options.Value.CacheAbsoluteExpirationInMinutes)
-        }, cancellationToken);
-
-        if (_logger.IsEnabled(LogLevel.Trace))
-        {
-            _logger.LogTrace("Sitemap created and cached, returning sitemap");
-        }
-
+                return xmlSiteMap;
+            },
+            new HybridCacheEntryOptions
+            {
+                Expiration = TimeSpan.FromMinutes(_options.Value.CacheDurationInMinutes),
+                LocalCacheExpiration = TimeSpan.FromMinutes(_options.Value.LocalCacheDurationInMinutes),
+            },
+            cancellationToken: cancellationToken);
         return xml;
     }
+
+    private string GetCacheKey() => string.IsNullOrWhiteSpace(_options.Value.CacheKeyPrefix) ? CacheKey : $"{_options.Value.CacheKeyPrefix}:{CacheKey}";
 
     private Task<string> CreateSitemapInternalAsync(CancellationToken cancellationToken = default)
     {

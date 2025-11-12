@@ -13,10 +13,13 @@ builder.Services
     .AddSitemapMiddleware(
         options =>
         {
+            options.CacheEnabled = true;
             options.EndpointInclusionMode = EndpointInclusionMode.OptIn;
             options.AssemblyMarker = typeof(IAssemblyMarker); // set the assembly marker, required for the integration tests
         })
     .AddControllersWithViews();
+
+builder.Services.AddHybridCache();
 
 var app = builder.Build();
 
