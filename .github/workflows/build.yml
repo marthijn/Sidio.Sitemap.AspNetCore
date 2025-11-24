@@ -59,7 +59,7 @@ jobs:
           name: coveragereport
           path: coveragereport/
       - name: Upload dotnet test results
-        uses: coverallsapp/github-action@v2.3.6
+        uses: coverallsapp/github-action@v2.3.7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           files: ${{ github.workspace }}/coveragereport/Cobertura.xml
