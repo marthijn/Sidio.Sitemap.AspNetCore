@@ -46,7 +46,7 @@ jobs:
           /p:CoverletOutputFormat="\"cobertura,json\""
           /p:CoverletOutput=coverage/
           /p:IncludeTestAssembly=false
-          /p:ExcludeByFile="**/*.cshtml,**/*.g.cs,**/*.generated.cs,**/obj/**"
+          /p:ExcludeByFile=\"**/*.cshtml,**/*.g.cs,**/*.generated.cs,**/obj/**\"
       - name: ReportGenerator
         uses: danielpalme/ReportGenerator-GitHub-Action@v5
         with:
