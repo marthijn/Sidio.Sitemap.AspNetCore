@@ -77,7 +77,7 @@ and sitemap extensions (i.e. news, images and videos).
 
 ## Using middleware
 By using the `SitemapMiddlware` the sitemap is generated automatically using reflection. 
-Currently only ASP .NET Core controllers and actions are supported. Razor pages will be supported in the future.
+ASP .NET Core controllers and actions are supported, as well as Razor pages and API controllers.
 
 ### Setup
 In `Program.cs`, add the following:
@@ -157,6 +157,23 @@ builder.Services
             options.CacheDurationInMinutes = 60; // optional, default is 60 minutes
             options.LocalCacheDurationInMinutes = 5; // optional, default is 5 minutes
         })
+```
+
+### Providing additional nodes
+You can provide additional sitemap nodes by implementing the `ISitemapNodeProvider` interface. The middleware will
+detect and use your implementation automatically.
+```csharp
+// Implement the ICustomSitemapNodeProvider interface
+public class MyCustomSitemapNodeProvider : ICustomSitemapNodeProvider
+{
+    public IEnumerable<SitemapNode> GetNodes()
+    {
+        return new List<SitemapNode> { new("/test") };
+    }
+}
+
+// Register the provider in DI
+services.AddCustomSitemapNodeProvider<MyCustomSitemapNodeProvider>();
 ```
 
 # Upgrade to v3.x

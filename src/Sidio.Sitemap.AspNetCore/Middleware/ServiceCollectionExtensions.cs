@@ -23,4 +23,20 @@ public static class ServiceCollectionExtensions
         serviceCollection.AddScoped<IApplicationSitemapService, ApplicationSitemapService>();
         return serviceCollection;
     }
+
+    /// <summary>
+    /// Adds a custom sitemap node provider which will be used to provide additional sitemap nodes.
+    /// This will only work when the middleware is added via <see cref="AddSitemapMiddleware(IServiceCollection, Action{SitemapMiddlewareOptions})"/>.
+    /// </summary>
+    /// <param name="serviceCollection">The service collection.</param>
+    /// <param name="serviceLifetime">The service lifetime.</param>
+    /// <typeparam name="T">The implementation of <see cref="IServiceCollection"/>.</typeparam>
+    /// <returns>The <see cref="IServiceCollection"/>.</returns>
+    public static IServiceCollection AddCustomSitemapNodeProvider<T>(this IServiceCollection serviceCollection, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+        where T : class, ICustomSitemapNodeProvider
+    {
+        var serviceDescriptor = new ServiceDescriptor(typeof(ICustomSitemapNodeProvider), typeof(T), serviceLifetime);
+        serviceCollection.Add(serviceDescriptor);
+        return serviceCollection;
+    }
 }

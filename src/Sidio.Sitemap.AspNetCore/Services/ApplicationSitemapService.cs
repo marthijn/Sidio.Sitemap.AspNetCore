@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Caching.Hybrid;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sidio.Sitemap.AspNetCore.Middleware;
@@ -21,6 +22,7 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
     private readonly IOptions<SitemapMiddlewareOptions> _options;
     private readonly IControllerService _controllerService;
     private readonly IRazorPageSitemapService _razorPageSitemapService;
+    private readonly ICustomSitemapNodeProvider? _customSitemapNodeProvider;
     private readonly ILogger<ApplicationSitemapService> _logger;
 
     /// <summary>
@@ -28,37 +30,10 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
     /// </summary>
     /// <param name="sitemapService">The sitemap service.</param>
     /// <param name="controllerSitemapService">The controller sitemap service.</param>
-    /// <param name="cache">The cache.</param>
     /// <param name="options">Options.</param>
     /// <param name="controllerService">The controller service.</param>
     /// <param name="razorPageSitemapService">The razor pages sitemap service.</param>
-    /// <param name="logger">The logger.</param>
-    public ApplicationSitemapService(
-        ISitemapService sitemapService,
-        IControllerSitemapService controllerSitemapService,
-        HybridCache cache,
-        IOptions<SitemapMiddlewareOptions> options,
-        IControllerService controllerService,
-        IRazorPageSitemapService razorPageSitemapService,
-        ILogger<ApplicationSitemapService> logger) : this(
-        sitemapService,
-        controllerSitemapService,
-        options,
-        controllerService,
-        razorPageSitemapService,
-        logger)
-    {
-        _cache = cache;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ApplicationSitemapService"/> class.
-    /// </summary>
-    /// <param name="sitemapService">The sitemap service.</param>
-    /// <param name="controllerSitemapService">The controller sitemap service.</param>
-    /// <param name="options">Options.</param>
-    /// <param name="controllerService">The controller service.</param>
-    /// <param name="razorPageSitemapService">The razor pages sitemap service.</param>
+    /// <param name="serviceProvider">The service provider.</param>
     /// <param name="logger">The logger.</param>
     public ApplicationSitemapService(
         ISitemapService sitemapService,
@@ -66,6 +41,7 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
         IOptions<SitemapMiddlewareOptions> options,
         IControllerService controllerService,
         IRazorPageSitemapService razorPageSitemapService,
+        IServiceProvider serviceProvider,
         ILogger<ApplicationSitemapService> logger)
     {
         _sitemapService = sitemapService;
@@ -74,6 +50,10 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
         _controllerService = controllerService;
         _razorPageSitemapService = razorPageSitemapService;
         _logger = logger;
+
+        // optional dependencies
+        _cache = serviceProvider.GetService<HybridCache>();
+        _customSitemapNodeProvider = serviceProvider.GetService<ICustomSitemapNodeProvider>();
     }
 
     /// <inheritdoc />
@@ -121,6 +101,18 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
     private Task<string> CreateSitemapInternalAsync(CancellationToken cancellationToken = default)
     {
         var sitemap = CreateSitemapObject();
+
+        // get custom node provider
+        if (_customSitemapNodeProvider != null)
+        {
+            if (_logger.IsEnabled(LogLevel.Trace))
+            {
+                _logger.LogTrace("Adding custom sitemap nodes from `{CustomSitemapNodeProvider}`", _customSitemapNodeProvider.GetType().FullName);
+            }
+
+            sitemap.Add(_customSitemapNodeProvider.GetNodes());
+        }
+
         return _sitemapService.SerializeAsync(sitemap, cancellationToken);
     }
 
