@@ -176,6 +176,18 @@ public class MyCustomSitemapNodeProvider : ICustomSitemapNodeProvider
 services.AddCustomSitemapNodeProvider<MyCustomSitemapNodeProvider>();
 ```
 
+# Security
+The `HttpContextBaseUrlProvider` uses `Request.Host` which is not considered safe by default. To mitigate this, use one of the following approaches:
+* Implement a custom `IBaseUrlProvider` that uses a safe way to determine the base URL, for example by using `IHttpContextAccessor` and validating the host against a whitelist, or by loading a base URL from configuration.
+* Configure Forwarded Headers middleware:
+```csharp
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedProto,
+    KnownProxies = { IPAddress.Parse("IP_ADDRESS_OF_YOUR_PROXY") }
+});
+```
+
 # Upgrade to v3.x
 In version 3.x, the `IDistributedCache` is replaced with the `HybridCache`. Register the `HybridCache` in your startup file:
 ```csharp
