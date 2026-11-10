@@ -93,7 +93,12 @@ public sealed class ControllerSitemapService : IControllerSitemapService
 
     private SitemapNode? CreateNode(ControllerActionDescriptor action)
     {
-        var url = _linkGenerator.GetUriByAction(HttpContext, action.ActionName, action.ControllerName);
+        var routeValues = new RouteValueDictionary(action.RouteValues);
+        var url = _linkGenerator.GetUriByAction(
+            HttpContext,
+            action.ActionName,
+            action.ControllerName,
+            routeValues);
 
         if (_logger.IsEnabled(LogLevel.Warning) && string.IsNullOrWhiteSpace(url))
         {

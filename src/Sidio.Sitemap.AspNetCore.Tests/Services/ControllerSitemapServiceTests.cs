@@ -217,9 +217,138 @@ public sealed class ControllerSitemapServiceTests
         result.Should().BeEmpty();
     }
 
+    [Fact]
+    public void CreateSitemap_WhenUsingOptInAndAreaMvcActionDecorated_ShouldReturnNodes()
+    {
+        // arrange
+        var service = CreateService(
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptIn},
+            out var actionDescriptorCollectionProvider,
+            address => HasArea(address, "admin") ? _fixture.Create<string>() : null);
+
+        actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(
+            new ActionDescriptorCollection(
+                new List<ActionDescriptor>
+                {
+                    new ControllerActionDescriptor
+                    {
+                        ControllerTypeInfo = typeof(AreaMvcController).GetTypeInfo(),
+                        ActionName = nameof(AreaMvcController.Included),
+                        ControllerName = "AreaMvc",
+                        EndpointMetadata = [new SitemapIncludeAttribute()],
+                        RouteValues = new Dictionary<string, string?> { ["area"] = "admin" }
+                    }
+                },
+                1));
+
+        // act
+        var result = service.CreateSitemap(typeof(AreaMvcController));
+
+        // assert
+        result.Should().NotBeNullOrEmpty();
+        result.Count.Should().Be(1);
+    }
+
+    [Fact]
+    public void CreateSitemap_WhenUsingOptOutAndAreaMvcActionExcluded_ShouldReturnEmptyNodes()
+    {
+        // arrange
+        var service = CreateService(
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptOut},
+            out var actionDescriptorCollectionProvider);
+
+        actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(
+            new ActionDescriptorCollection(
+                new List<ActionDescriptor>
+                {
+                    new ControllerActionDescriptor
+                    {
+                        ControllerTypeInfo = typeof(AreaMvcController).GetTypeInfo(),
+                        ActionName = nameof(AreaMvcController.Excluded),
+                        ControllerName = "AreaMvc",
+                        EndpointMetadata = [new SitemapExcludeAttribute()],
+                        RouteValues = new Dictionary<string, string?> { ["area"] = "admin" }
+                    }
+                },
+                1));
+
+        // act
+        var result = service.CreateSitemap(typeof(AreaMvcController));
+
+        // assert
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CreateSitemap_WhenUsingOptInAndAreaApiActionDecorated_ShouldReturnNodes()
+    {
+        // arrange
+        var service = CreateService(
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptIn},
+            out var actionDescriptorCollectionProvider,
+            address => HasArea(address, "admin") ? _fixture.Create<string>() : null);
+
+        actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(
+            new ActionDescriptorCollection(
+                new List<ActionDescriptor>
+                {
+                    new ControllerActionDescriptor
+                    {
+                        ControllerTypeInfo = typeof(AreaApiController).GetTypeInfo(),
+                        ActionName = nameof(AreaApiController.Included),
+                        ControllerName = "AreaApi",
+                        EndpointMetadata = [new SitemapIncludeAttribute()],
+                        RouteValues = new Dictionary<string, string?> { ["area"] = "admin" }
+                    }
+                },
+                1));
+
+        // act
+        var result = service.CreateSitemap(typeof(AreaApiController));
+
+        // assert
+        result.Should().NotBeNullOrEmpty();
+        result.Count.Should().Be(1);
+    }
+
+    [Fact]
+    public void CreateSitemap_WhenUsingOptOutAndAreaApiActionExcluded_ShouldReturnEmptyNodes()
+    {
+        // arrange
+        var service = CreateService(
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptOut},
+            out var actionDescriptorCollectionProvider);
+
+        actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(
+            new ActionDescriptorCollection(
+                new List<ActionDescriptor>
+                {
+                    new ControllerActionDescriptor
+                    {
+                        ControllerTypeInfo = typeof(AreaApiController).GetTypeInfo(),
+                        ActionName = nameof(AreaApiController.Excluded),
+                        ControllerName = "AreaApi",
+                        EndpointMetadata = [new SitemapExcludeAttribute()],
+                        RouteValues = new Dictionary<string, string?> { ["area"] = "admin" }
+                    }
+                },
+                1));
+
+        // act
+        var result = service.CreateSitemap(typeof(AreaApiController));
+
+        // assert
+        result.Should().BeEmpty();
+    }
+
+    private static bool HasArea(RouteValuesAddress routeValuesAddress, string area) =>
+        routeValuesAddress.ExplicitValues.TryGetValue("area", out var areaValue) &&
+        string.Equals(areaValue?.ToString(), area, StringComparison.OrdinalIgnoreCase);
+
     private ControllerSitemapService CreateService(
         SitemapMiddlewareOptions options,
-        out Mock<IActionDescriptorCollectionProvider> actionDescriptorCollectionProvider)
+        out Mock<IActionDescriptorCollectionProvider> actionDescriptorCollectionProvider,
+        Func<RouteValuesAddress, string?>? urlFactory = null)
     {
         var linkGenerator = new Mock<LinkGenerator>();
         linkGenerator.Setup(
@@ -232,7 +361,16 @@ public sealed class ControllerSitemapServiceTests
                 It.IsAny<HostString?>(),
                 It.IsAny<PathString?>(),
                 It.IsAny<FragmentString>(),
-                It.IsAny<LinkOptions?>())).Returns(_fixture.Create<string>());
+                It.IsAny<LinkOptions?>())).Returns((
+                HttpContext _,
+                RouteValuesAddress routeValuesAddress,
+                RouteValueDictionary _,
+                RouteValueDictionary? _,
+                string? _,
+                HostString? _,
+                PathString? _,
+                FragmentString _,
+                LinkOptions? _) => urlFactory?.Invoke(routeValuesAddress) ?? _fixture.Create<string>());
 
         actionDescriptorCollectionProvider = new Mock<IActionDescriptorCollectionProvider>();
 
@@ -267,5 +405,20 @@ public sealed class ControllerSitemapServiceTests
     private sealed class ControllerExcludeController : Controller
     {
         public IActionResult Index() => Ok();
+    }
+
+    private sealed class AreaMvcController : Controller
+    {
+        public IActionResult Included() => Ok();
+
+        public IActionResult Excluded() => Ok();
+    }
+
+    [ApiController]
+    private sealed class AreaApiController : ControllerBase
+    {
+        public IActionResult Included() => Ok();
+
+        public IActionResult Excluded() => Ok();
     }
 }
