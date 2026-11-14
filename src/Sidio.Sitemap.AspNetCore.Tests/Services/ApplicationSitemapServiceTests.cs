@@ -90,6 +90,54 @@ public sealed class ApplicationSitemapServiceTests
             Times.Once);
     }
 
+    [Fact]
+    public async Task CreateSitemapAsync_WhenIncludeApiControllersEnabled_ShouldIncludeApiControllers()
+    {
+        // arrange
+        var sitemapServiceMock = new Mock<ISitemapService>();
+        sitemapServiceMock.Setup(x => x.SerializeAsync(It.IsAny<Core.Sitemap>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.FromResult("<urlset></urlset>"));
+
+        var controllerSitemapServiceMock = new Mock<IControllerSitemapService>();
+        controllerSitemapServiceMock.Setup(x => x.CreateSitemap(It.IsAny<Type>()))
+            .Returns(new HashSet<SitemapNode> { new ("/test") });
+
+        var razorPagesSitemapServiceMock = new Mock<IRazorPageSitemapService>();
+        razorPagesSitemapServiceMock.Setup(x => x.CreateSitemap())
+            .Returns(new HashSet<SitemapNode>());
+
+        var controllerServiceMock = new Mock<IControllerService>();
+        controllerServiceMock.Setup(x => x.GetControllersFromAssembly(It.IsAny<Type>()))
+            .Returns([typeof(DummyController)]);
+        controllerServiceMock.Setup(x => x.GetApiControllerFromAssembly(It.IsAny<Type>()))
+            .Returns([typeof(DummyApiController)]);
+
+        var serviceProvider = new ServiceCollection().BuildServiceProvider();
+        var options = Options.Create(
+            new SitemapMiddlewareOptions
+            {
+                CacheEnabled = false,
+                IncludeApiControllers = true
+            });
+
+        var service = new ApplicationSitemapService(
+            sitemapServiceMock.Object,
+            controllerSitemapServiceMock.Object,
+            options,
+            controllerServiceMock.Object,
+            razorPagesSitemapServiceMock.Object,
+            serviceProvider,
+            new AssertLogger<ApplicationSitemapService>());
+
+        // act
+        var result = await service.CreateSitemapAsync();
+
+        // assert
+        result.Should().NotBeNullOrWhiteSpace();
+        controllerServiceMock.Verify(x => x.GetApiControllerFromAssembly(It.IsAny<Type>()), Times.Once);
+        controllerSitemapServiceMock.Verify(x => x.CreateSitemap(typeof(DummyApiController)), Times.Once);
+    }
+
     private static ApplicationSitemapService CreateService(
         SitemapMiddlewareOptions options,
         out Mock<HybridCache> hybridCacheMock,
@@ -131,6 +179,12 @@ public sealed class ApplicationSitemapServiceTests
     }
 
     private sealed class DummyController : Controller
+    {
+        public IActionResult Index() => Ok();
+    }
+
+    [ApiController]
+    private sealed class DummyApiController : ControllerBase
     {
         public IActionResult Index() => Ok();
     }

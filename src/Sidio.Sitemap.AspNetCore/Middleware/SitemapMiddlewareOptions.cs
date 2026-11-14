@@ -14,6 +14,7 @@ public sealed class SitemapMiddlewareOptions
 
     /// <summary>
     /// Gets or sets a value indicating whether the cache is enabled.
+    /// Default is false.
     /// </summary>
     public bool CacheEnabled { get; set; }
 
@@ -35,6 +36,7 @@ public sealed class SitemapMiddlewareOptions
 
     /// <summary>
     /// Gets or sets a value indicating whether to include API controllers (types derived from <see cref="ControllerBase"/>).
+    /// Default is false.
     /// </summary>
     public bool IncludeApiControllers { get; set; }
 
