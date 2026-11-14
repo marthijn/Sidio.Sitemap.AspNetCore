@@ -16,6 +16,7 @@ builder.Services
             options.CacheEnabled = true;
             options.EndpointInclusionMode = EndpointInclusionMode.OptIn;
             options.AssemblyMarker = typeof(IAssemblyMarker); // set the assembly marker, required for the integration tests
+            options.IncludeApiControllers = false;
         })
     .AddCustomSitemapNodeProvider<CustomSitemapNodeProvider>()
     .AddControllersWithViews();

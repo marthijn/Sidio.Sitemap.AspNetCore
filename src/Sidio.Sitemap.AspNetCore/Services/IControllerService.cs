@@ -13,9 +13,9 @@ public interface IControllerService
     IReadOnlyList<Type> GetControllersFromAssembly(Type? assemblyMarker = null);
 
     /// <summary>
-    /// Returns a list of controller bases from the assembly.
+    /// Returns a list of API controllers from the assembly.
     /// </summary>
     /// <param name="assemblyMarker">The assembly marker (optional).</param>
     /// <returns>A <see cref="IReadOnlyList{T}"/>.</returns>
-    IReadOnlyList<Type> GetControllerBasesFromAssembly(Type? assemblyMarker = null);
+    IReadOnlyList<Type> GetApiControllerFromAssembly(Type? assemblyMarker = null);
 }

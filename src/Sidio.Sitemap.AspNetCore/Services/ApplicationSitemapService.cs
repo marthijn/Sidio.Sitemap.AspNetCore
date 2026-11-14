@@ -139,7 +139,7 @@ public sealed class ApplicationSitemapService : IApplicationSitemapService
 
         if (_options.Value.IncludeApiControllers)
         {
-            var apiControllers = _controllerService.GetControllerBasesFromAssembly(_options.Value.AssemblyMarker);
+            var apiControllers = _controllerService.GetApiControllerFromAssembly(_options.Value.AssemblyMarker);
             foreach (var apiController in apiControllers.Select(
                          controller => _controllerSitemapService.CreateSitemap(controller)))
             {

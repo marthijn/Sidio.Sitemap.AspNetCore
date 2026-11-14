@@ -27,6 +27,7 @@ public sealed class SitemapMiddlewareTests : IClassFixture<WebApplicationFactory
         content.Should().Contain("custom-url");
         content.Should().Contain("custom-sitemap-node-1");
         content.Should().Contain("TestArea/AreaHome/Included");
+        content.Should().NotContainEquivalentOf("Api/Included");
         content.Should().NotContainEquivalentOf("privacy");
         content.Should().NotContainEquivalentOf("TestArea/AreaHome/Excluded");
     }

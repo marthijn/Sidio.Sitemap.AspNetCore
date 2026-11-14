@@ -109,7 +109,7 @@ public sealed class ApplicationSitemapServiceTests
         var controllerServiceMock = new Mock<IControllerService>();
         controllerServiceMock.Setup(x => x.GetControllersFromAssembly(It.IsAny<Type>()))
             .Returns([typeof(DummyController)]);
-        controllerServiceMock.Setup(x => x.GetControllerBasesFromAssembly(It.IsAny<Type>()))
+        controllerServiceMock.Setup(x => x.GetApiControllerFromAssembly(It.IsAny<Type>()))
             .Returns([typeof(DummyApiController)]);
 
         var serviceProvider = new ServiceCollection().BuildServiceProvider();
@@ -134,7 +134,7 @@ public sealed class ApplicationSitemapServiceTests
 
         // assert
         result.Should().NotBeNullOrWhiteSpace();
-        controllerServiceMock.Verify(x => x.GetControllerBasesFromAssembly(It.IsAny<Type>()), Times.Once);
+        controllerServiceMock.Verify(x => x.GetApiControllerFromAssembly(It.IsAny<Type>()), Times.Once);
         controllerSitemapServiceMock.Verify(x => x.CreateSitemap(typeof(DummyApiController)), Times.Once);
     }
 

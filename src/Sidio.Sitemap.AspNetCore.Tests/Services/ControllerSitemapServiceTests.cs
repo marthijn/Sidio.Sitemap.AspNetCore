@@ -185,6 +185,42 @@ public sealed class ControllerSitemapServiceTests
     }
 
     [Fact]
+    public void CreateSitemap_WhenActionDescriptorsContainDifferentController_ShouldOnlyIncludeRequestedController()
+    {
+        // arrange
+        var service = CreateService(
+            new SitemapMiddlewareOptions{EndpointInclusionMode = EndpointInclusionMode.OptOut},
+            out var actionDescriptorCollectionProvider);
+
+        actionDescriptorCollectionProvider.SetupGet(x => x.ActionDescriptors).Returns(
+            new ActionDescriptorCollection(
+                new List<ActionDescriptor>
+                {
+                    new ControllerActionDescriptor
+                    {
+                        ControllerTypeInfo = typeof(ActionIncludeController).GetTypeInfo(),
+                        ActionName = nameof(ActionIncludeController.Index),
+                        ControllerName = "IncludedController",
+                        EndpointMetadata = [],
+                    },
+                    new ControllerActionDescriptor
+                    {
+                        ControllerTypeInfo = typeof(ActionExcludeController).GetTypeInfo(),
+                        ActionName = nameof(ActionExcludeController.Index),
+                        ControllerName = "OtherController",
+                        EndpointMetadata = [],
+                    }
+                },
+                1));
+
+        // act
+        var result = service.CreateSitemap(typeof(ActionIncludeController));
+
+        // assert
+        result.Should().HaveCount(1);
+    }
+
+    [Fact]
     public void CreateSitemap_WhenUsingOptOutAndControllerDecorated_ShouldReturnEmptyNodes()
     {
         // arrange

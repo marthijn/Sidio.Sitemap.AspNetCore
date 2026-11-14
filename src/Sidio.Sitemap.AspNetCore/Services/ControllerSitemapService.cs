@@ -51,7 +51,7 @@ public sealed class ControllerSitemapService : IControllerSitemapService
         var inclusionMethod = _options.Value.EndpointInclusionMode;
         var actions = _actionDescriptorCollectionProvider.ActionDescriptors.Items
             .OfType<ControllerActionDescriptor>()
-            .Where(x => IsSitemapController(x.ControllerTypeInfo))
+            .Where(x => IsSitemapController(x.ControllerTypeInfo) && x.ControllerTypeInfo.AsType() == controllerType)
             .ToList();
 
         if (_logger.IsEnabled(LogLevel.Trace))
@@ -70,16 +70,12 @@ public sealed class ControllerSitemapService : IControllerSitemapService
 
         if (inclusionMethod == EndpointInclusionMode.OptIn)
         {
-            var methods = GetControllerMethodsOptIn(
-                controllerType,
-                actions.Where(x => IsSitemapController(x.ControllerTypeInfo)));
+            var methods = GetControllerMethodsOptIn(controllerType, actions);
             nodes.UnionWith(methods);
         }
         else
         {
-            var methods = GetControllerMethodsOptOut(
-                controllerType,
-                actions.Where(x => IsSitemapController(x.ControllerTypeInfo)));
+            var methods = GetControllerMethodsOptOut(controllerType, actions);
             nodes.UnionWith(methods);
         }
 
