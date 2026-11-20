@@ -132,6 +132,8 @@ builder.Services
         })
 ```
 
+Note: API Controllers should be decorated with the `[ApiController]` attribute to be detected by the middleware.
+
 ### Razor pages
 Similar to controllers and actions, the attributes can be used in razor pages:
 ```cshtml

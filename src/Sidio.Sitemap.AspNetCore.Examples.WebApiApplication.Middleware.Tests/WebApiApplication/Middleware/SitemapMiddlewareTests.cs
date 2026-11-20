@@ -25,5 +25,7 @@ public sealed class SitemapMiddlewareTests : IClassFixture<WebApplicationFactory
         var content = await response.Content.ReadAsStringAsync();
         content.Should().Contain("WeatherForecast");
         content.Should().Contain("AlternativeGet");
+        content.Should().Contain("TestArea/AreaApi/Included");
+        content.Should().NotContainEquivalentOf("TestArea/AreaApi/Excluded");
     }
 }
