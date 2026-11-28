@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -14,21 +13,21 @@ internal sealed class ControllerService : IControllerService
         _logger = logger;
     }
 
-    [ExcludeFromCodeCoverage]
     public IReadOnlyList<Type> GetControllersFromAssembly(Type? assemblyMarker = null)
     {
         var types = GetTypes(assemblyMarker);
         return types
-            .Where(type => typeof(Controller).IsAssignableFrom(type)).ToList();
+            .Where(type => typeof(Controller).IsAssignableFrom(type) && !IsApiController(type)).ToList();
     }
 
-    [ExcludeFromCodeCoverage]
-    public IReadOnlyList<Type> GetControllerBasesFromAssembly(Type? assemblyMarker = null)
+    public IReadOnlyList<Type> GetApiControllerFromAssembly(Type? assemblyMarker = null)
     {
         var types = GetTypes(assemblyMarker);
         return types
-            .Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToList();
+            .Where(type => typeof(ControllerBase).IsAssignableFrom(type) && IsApiController(type)).ToList();
     }
+
+    private static bool IsApiController(MemberInfo type) => type.GetCustomAttribute<ApiControllerAttribute>(inherit: true) != null;
 
     private Type[] GetTypes(Type? assemblyMarker = null)
     {
